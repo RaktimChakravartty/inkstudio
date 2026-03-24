@@ -11,6 +11,7 @@ import {
   Sparkles,
   Upload,
   Loader2,
+  AlertCircle,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Select } from '@/components/ui/select';
@@ -41,11 +42,13 @@ export default function GeneratorPage() {
   const [subject, setSubject] = useState('');
   const [colour1, setColour1] = useState('#E8A317');
   const [colour2, setColour2] = useState('#E86A50');
-  const [selectedModel, setSelectedModel] = useState('copy_prompt');
+  const [selectedModel, setSelectedModel] = useState('hf_flux_schnell');
   const [showPrompt, setShowPrompt] = useState(false);
   const [copied, setCopied] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
+  const [genError, setGenError] = useState<string | null>(null);
+  const [usedModel, setUsedModel] = useState<string | null>(null);
   const [palette, setPalette] = useState<Palette | null>(null);
   const [styleBlock, setStyleBlock] = useState('');
   const [exclusionsBlock, setExclusionsBlock] = useState('');
@@ -121,10 +124,13 @@ export default function GeneratorPage() {
 
     setGenerating(true);
     setGeneratedImage(null);
+    setGenError(null);
+    setUsedModel(null);
 
     try {
-      const imageUrl = await adapter.generate(prompt, exclusionsBlock);
-      setGeneratedImage(imageUrl);
+      const result = await adapter.generate(prompt, exclusionsBlock);
+      setGeneratedImage(result.image);
+      setUsedModel(result.model);
 
       const gen: Generation = {
         id: uuidv4(),
@@ -135,16 +141,18 @@ export default function GeneratorPage() {
         composition,
         subject,
         accent_colours: accentColours,
-        model: adapter.id,
+        model: result.model,
         status: 'pending',
         feedback: null,
         tags: [],
-        image_url: imageUrl,
+        image_url: result.image,
         source: 'generated',
         created_at: new Date().toISOString(),
       };
       await saveGeneration(gen);
     } catch (err) {
+      const message = err instanceof Error ? err.message : 'Generation failed';
+      setGenError(message);
       console.error('Generation failed:', err);
     } finally {
       setGenerating(false);
@@ -368,7 +376,33 @@ export default function GeneratorPage() {
         <div className="space-y-6">
           {/* Generated Image Preview */}
           <div className="bg-ink-900 border border-ink-800 rounded-xl overflow-hidden">
-            {generatedImage ? (
+            {generating ? (
+              <div className="aspect-[4/3] flex items-center justify-center bg-ink-900">
+                <div className="text-center space-y-3">
+                  <Loader2 size={32} className="animate-spin text-amber mx-auto" />
+                  <div>
+                    <p className="text-ink-300 text-sm">Generating illustration...</p>
+                    <p className="text-ink-600 text-xs mt-1">
+                      This may take 10-30 seconds
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ) : genError ? (
+              <div className="aspect-[4/3] flex items-center justify-center bg-ink-900">
+                <div className="text-center space-y-3 max-w-sm px-6">
+                  <AlertCircle size={32} className="text-red-400 mx-auto" />
+                  <p className="text-red-400 text-sm font-medium">Generation Failed</p>
+                  <p className="text-ink-500 text-xs">{genError}</p>
+                  <button
+                    onClick={() => setGenError(null)}
+                    className="text-xs text-ink-400 hover:text-ink-200 underline cursor-pointer"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              </div>
+            ) : generatedImage ? (
               <div className="relative">
                 <img
                   src={generatedImage}
@@ -379,6 +413,11 @@ export default function GeneratorPage() {
                   <Badge variant="amber">{INK_MODE_LABELS[inkMode]}</Badge>
                   <Badge variant="cobalt">{COMPOSITION_LABELS[composition]}</Badge>
                 </div>
+                {usedModel && (
+                  <div className="absolute bottom-3 left-3">
+                    <Badge variant="success">{usedModel}</Badge>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="aspect-[4/3] flex items-center justify-center bg-ink-900">
@@ -389,7 +428,7 @@ export default function GeneratorPage() {
                   <div>
                     <p className="text-ink-400 text-sm">No illustration yet</p>
                     <p className="text-ink-600 text-xs mt-1">
-                      Generate with an API or upload an image
+                      Select FLUX.1 Schnell and hit Generate, or upload an image
                     </p>
                   </div>
                 </div>

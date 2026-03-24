@@ -1,48 +1,40 @@
 export interface GenerationAdapter {
   name: string;
   id: string;
-  generate(prompt: string, negativePrompt: string): Promise<string>; // returns image URL or data URL
+  generate(prompt: string, negativePrompt: string): Promise<{ image: string; model: string }>;
 }
 
-// ---------- Hugging Face ----------
+// ---------- Hugging Face (via server-side API route) ----------
 
 export class HuggingFaceAdapter implements GenerationAdapter {
-  name = 'Hugging Face (FLUX.1-schnell)';
-  id = 'huggingface_flux';
-  private apiKey: string;
-  private model: string;
+  name: string;
+  id: string;
+  private modelId: string;
 
-  constructor(apiKey: string, model = 'black-forest-labs/FLUX.1-schnell') {
-    this.apiKey = apiKey;
-    this.model = model;
+  constructor(modelId: string, name: string, id: string) {
+    this.modelId = modelId;
+    this.name = name;
+    this.id = id;
   }
 
-  async generate(prompt: string): Promise<string> {
-    const response = await fetch(`https://api-inference.huggingface.co/models/${this.model}`, {
+  async generate(prompt: string): Promise<{ image: string; model: string }> {
+    const response = await fetch('/api/generate', {
       method: 'POST',
-      headers: {
-        Authorization: `Bearer ${this.apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ inputs: prompt }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt, model: this.modelId }),
     });
 
     if (!response.ok) {
-      const err = await response.text();
-      throw new Error(`Hugging Face API error: ${err}`);
+      const err = await response.json().catch(() => ({ error: response.statusText }));
+      throw new Error(err.error || `Generation failed (${response.status})`);
     }
 
-    const blob = await response.blob();
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
+    const data = await response.json();
+    return { image: data.image, model: data.model };
   }
 }
 
-// ---------- Replicate ----------
+// ---------- Replicate (client-side, user provides key) ----------
 
 export class ReplicateAdapter implements GenerationAdapter {
   name = 'Replicate (FLUX.1-schnell)';
@@ -53,7 +45,7 @@ export class ReplicateAdapter implements GenerationAdapter {
     this.apiKey = apiKey;
   }
 
-  async generate(prompt: string): Promise<string> {
+  async generate(prompt: string): Promise<{ image: string; model: string }> {
     const createResponse = await fetch('https://api.replicate.com/v1/predictions', {
       method: 'POST',
       headers: {
@@ -86,7 +78,7 @@ export class ReplicateAdapter implements GenerationAdapter {
       throw new Error('Replicate generation failed');
     }
 
-    return result.output[0];
+    return { image: result.output[0], model: 'replicate_flux' };
   }
 }
 
@@ -96,7 +88,7 @@ export class CopyPromptAdapter implements GenerationAdapter {
   name = 'Copy Prompt (No API)';
   id = 'copy_prompt';
 
-  async generate(): Promise<string> {
+  async generate(): Promise<{ image: string; model: string }> {
     throw new Error('COPY_ONLY');
   }
 }
@@ -106,12 +98,24 @@ export class CopyPromptAdapter implements GenerationAdapter {
 export function getAvailableAdapters(): GenerationAdapter[] {
   const adapters: GenerationAdapter[] = [];
 
-  if (typeof window !== 'undefined') {
-    const hfKey = localStorage.getItem('ink_api_huggingface');
-    if (hfKey) {
-      adapters.push(new HuggingFaceAdapter(hfKey));
-    }
+  // Server-side HF models (always available when HF_TOKEN is set on server)
+  adapters.push(
+    new HuggingFaceAdapter(
+      'black-forest-labs/FLUX.1-schnell',
+      'FLUX.1 Schnell (Fast)',
+      'hf_flux_schnell'
+    )
+  );
+  adapters.push(
+    new HuggingFaceAdapter(
+      'stabilityai/stable-diffusion-xl-base-1.0',
+      'Stable Diffusion XL',
+      'hf_sdxl'
+    )
+  );
 
+  // Client-side Replicate (only if user provides key)
+  if (typeof window !== 'undefined') {
     const repKey = localStorage.getItem('ink_api_replicate');
     if (repKey) {
       adapters.push(new ReplicateAdapter(repKey));
