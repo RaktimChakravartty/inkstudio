@@ -1,8 +1,8 @@
 import type { InkMode, Vertical, Composition } from '@/types/database';
 import type { Palette } from '@/types/database';
-import { DEFAULT_STYLE_BLOCK, DEFAULT_EXCLUSIONS_BLOCK, COMPOSITION_DESCRIPTIONS } from './constants';
+import { DEFAULT_STYLE_BLOCK, DEFAULT_EXCLUSIONS_BLOCK, COMPOSITION_DESCRIPTIONS, INK_MODE_LABELS, COMPOSITION_LABELS, VERTICAL_LABELS } from './constants';
 
-interface PromptParams {
+export interface PromptParams {
   inkMode: InkMode;
   vertical: Vertical;
   composition: Composition;
@@ -11,7 +11,21 @@ interface PromptParams {
   palette: Palette | null;
   styleBlock?: string;
   exclusionsBlock?: string;
+  detailLevel?: number; // 0-100, controls how much detail to include
 }
+
+export type PlatformVariant = 'universal' | 'midjourney' | 'recraft' | 'freepik' | 'dalle' | 'stable_diffusion';
+
+export const PLATFORM_LABELS: Record<PlatformVariant, string> = {
+  universal: 'Universal',
+  midjourney: 'Midjourney',
+  recraft: 'Recraft',
+  freepik: 'Freepik',
+  dalle: 'DALL-E / ChatGPT',
+  stable_diffusion: 'Stable Diffusion',
+};
+
+// ── Section builders ──
 
 function getInkModeDirective(mode: InkMode, colours: string[], palette: Palette | null): string {
   switch (mode) {
@@ -33,10 +47,6 @@ function getInkModeDirective(mode: InkMode, colours: string[], palette: Palette 
   }
 }
 
-function getCompositionDirective(comp: Composition): string {
-  return COMPOSITION_DESCRIPTIONS[comp];
-}
-
 function getVerticalContext(vertical: Vertical): string {
   switch (vertical) {
     case 'space':
@@ -46,13 +56,22 @@ function getVerticalContext(vertical: Vertical): string {
     case 'tech':
       return 'The scene highlights technology and digital equipment in a workplace.';
     case 'master':
-      return '';
     case 'custom':
       return '';
   }
 }
 
-export function assemblePrompt(params: PromptParams): string {
+// ── Structured prompt with labeled sections ──
+
+export interface StructuredPrompt {
+  style: string;
+  subject: string;
+  composition: string;
+  colour: string;
+  exclusions: string;
+}
+
+export function getStructuredSections(params: PromptParams): StructuredPrompt {
   const {
     inkMode,
     vertical,
@@ -62,32 +81,100 @@ export function assemblePrompt(params: PromptParams): string {
     palette,
     styleBlock = DEFAULT_STYLE_BLOCK,
     exclusionsBlock = DEFAULT_EXCLUSIONS_BLOCK,
+    detailLevel = 100,
   } = params;
 
-  const parts: string[] = [];
+  // Style section — at low detail, use a condensed version
+  let style = styleBlock;
+  if (detailLevel < 50) {
+    style = 'Hand-drawn editorial ink illustration with confident, gestural brushpen linework. Black ink on white. Variable line weight. Lines are organic and slightly imperfect. Human figures have natural proportions. The style feels like editorial illustration from Monocle magazine or The New Yorker.';
+  } else if (detailLevel < 80) {
+    style = 'Hand-drawn editorial ink illustration with confident, gestural brushpen linework. Black ink on white. Variable line weight: heavier on outer contours (3-4px), lighter on interior details (1-1.5px). Lines are organic with occasional breaks where strokes trail off. Human figures with natural proportions (~1:5.5 head-to-body). Faces include simple line-drawn eyes, small nose, optional mouth. Hands are 3-4 finger gestural shorthand. Furniture as outline only. The quality suggests a Pentel Pocket Brush Pen on smooth paper. The style feels like editorial illustration from Monocle, The New Yorker, or WeWork.';
+  }
 
-  // Style definition (always first)
-  parts.push(styleBlock);
-
-  // Ink mode directive
-  parts.push(getInkModeDirective(inkMode, accentColours, palette));
-
-  // Composition
-  parts.push(`Composition: ${getCompositionDirective(composition)}`);
-
-  // Vertical context
+  // Subject section
   const verticalCtx = getVerticalContext(vertical);
-  if (verticalCtx) {
-    parts.push(verticalCtx);
+  const subjectParts: string[] = [];
+  if (subject.trim()) subjectParts.push(subject.trim());
+  if (verticalCtx) subjectParts.push(verticalCtx);
+  const subjectText = subjectParts.join(' ') || 'Editorial illustration scene.';
+
+  // Composition section
+  const compositionText = `${COMPOSITION_LABELS[composition]}: ${COMPOSITION_DESCRIPTIONS[composition]}`;
+
+  // Colour section
+  const colourText = getInkModeDirective(inkMode, accentColours, palette);
+
+  // Exclusions — at low detail, condense
+  let exclusions = exclusionsBlock;
+  if (detailLevel < 50) {
+    exclusions = 'No gradients, shadows, glow, 3D, photorealism, vector linework, uniform strokes, filled backgrounds, or text. Must look hand-drawn.';
+  } else if (detailLevel < 80) {
+    exclusions = 'No gradients. No drop shadows. No glow effects. No 3D rendering. No photorealistic elements. No smooth digital vector linework. No uniform stroke width. No filled backgrounds. No detailed patterns on clothing. No watermarks. Must look hand-drawn, not digitally generated.';
   }
 
-  // Subject
-  if (subject.trim()) {
-    parts.push(`Subject: ${subject.trim()}`);
+  return { style, subject: subjectText, composition: compositionText, colour: colourText, exclusions };
+}
+
+// ── Universal (labeled) prompt ──
+
+export function assemblePrompt(params: PromptParams): string {
+  const s = getStructuredSections(params);
+  return [
+    `── STYLE ──\n${s.style}`,
+    `── SUBJECT ──\n${s.subject}`,
+    `── COMPOSITION ──\n${s.composition}`,
+    `── COLOUR ──\n${s.colour}`,
+    `── EXCLUSIONS ──\n${s.exclusions}`,
+  ].join('\n\n');
+}
+
+// ── Raw prompt (no labels, for API calls) ──
+
+export function assembleRawPrompt(params: PromptParams): string {
+  const s = getStructuredSections(params);
+  return [s.style, s.subject, s.composition, s.colour].join('\n\n');
+}
+
+// ── Platform variants ──
+
+export function assemblePlatformPrompt(params: PromptParams, platform: PlatformVariant): string {
+  const s = getStructuredSections(params);
+
+  switch (platform) {
+    case 'universal':
+      return assemblePrompt(params);
+
+    case 'midjourney': {
+      const prompt = `${s.style}\n\n${s.subject}\n\n${s.composition}\n\n${s.colour}`;
+      const noItems = s.exclusions.replace(/No /g, '').replace(/\. /g, ', ').replace(/\.$/, '');
+      return `${prompt} --no ${noItems} --ar 4:3 --v 7 --style raw`;
+    }
+
+    case 'recraft': {
+      return `Style: vector_illustration\n\n${s.style}\n\n${s.subject}\n\n${s.composition}\n\n${s.colour}\n\nNegative: ${s.exclusions}`;
+    }
+
+    case 'freepik': {
+      // Shorter, optimized for Freepik's Flux/Nano Banana models
+      const shortStyle = params.detailLevel && params.detailLevel < 80
+        ? s.style
+        : 'Hand-drawn editorial ink illustration, gestural brushpen linework, black ink on white, variable line weight, organic imperfect lines, Monocle/New Yorker editorial style.';
+      return `${shortStyle}\n\n${s.subject}\n\n${s.composition}\n\n${s.colour}`;
+    }
+
+    case 'dalle': {
+      // Natural language, conversational style for ChatGPT/DALL-E
+      return `Create a hand-drawn editorial ink illustration in the style of Monocle magazine or The New Yorker. Use confident, gestural brushpen linework with black ink on white paper. The line weight should vary — heavier on outer contours, lighter on interior details. Lines should be organic and slightly imperfect, like a skilled illustrator using a Pentel Pocket Brush Pen.\n\n${s.subject}\n\n${s.composition}\n\n${s.colour}\n\nIMPORTANT: ${s.exclusions}`;
+    }
+
+    case 'stable_diffusion': {
+      // Prompt + separate negative prompt
+      const positive = `${s.style}\n\n${s.subject}\n\n${s.composition}\n\n${s.colour}`;
+      return `POSITIVE PROMPT:\n${positive}\n\nNEGATIVE PROMPT:\n${s.exclusions}`;
+    }
+
+    default:
+      return assemblePrompt(params);
   }
-
-  // Exclusions (always last)
-  parts.push(`NEGATIVE: ${exclusionsBlock}`);
-
-  return parts.join('\n\n');
 }

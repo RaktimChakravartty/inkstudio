@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect } from 'react';
 import {
   Pen,
   LayoutGrid,
@@ -10,40 +11,68 @@ import {
   Settings,
   FileText,
   BarChart3,
+  Sun,
+  Moon,
+  Layout,
 } from 'lucide-react';
 import { cn } from '@/lib/cn';
+import { useTheme } from '@/lib/theme';
 
 const NAV_ITEMS = [
-  { href: '/', label: 'Generator', icon: Pen },
-  { href: '/gallery', label: 'Gallery', icon: LayoutGrid },
-  { href: '/library', label: 'Reference Library', icon: BookOpen },
-  { href: '/brand-kit', label: 'Brand Kit', icon: Palette },
-  { href: '/prompt-library', label: 'Prompt Library', icon: FileText },
-  { href: '/analytics', label: 'Analytics', icon: BarChart3 },
-  { href: '/settings', label: 'Settings', icon: Settings },
+  { href: '/', label: 'Generator', icon: Pen, shortcut: 'G' },
+  { href: '/gallery', label: 'Gallery', icon: LayoutGrid, shortcut: 'L' },
+  { href: '/library', label: 'Reference Library', icon: BookOpen, shortcut: 'R' },
+  { href: '/brand-kit', label: 'Brand Kit', icon: Palette, shortcut: 'B' },
+  { href: '/prompt-library', label: 'Prompt Library', icon: FileText, shortcut: 'P' },
+  { href: '/analytics', label: 'Analytics', icon: BarChart3, shortcut: 'A' },
+  { href: '/workspace', label: 'Workspace', icon: Layout, shortcut: 'W' },
+  { href: '/settings', label: 'Settings', icon: Settings, shortcut: 'S' },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { theme, toggleTheme } = useTheme();
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    function handleKey(e: KeyboardEvent) {
+      // Don't trigger if typing in an input/textarea
+      if (
+        e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLTextAreaElement ||
+        e.target instanceof HTMLSelectElement ||
+        e.metaKey || e.ctrlKey || e.altKey
+      ) return;
+
+      const key = e.key.toUpperCase();
+      const item = NAV_ITEMS.find((n) => n.shortcut === key);
+      if (item) {
+        e.preventDefault();
+        window.location.href = item.href;
+      }
+    }
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, []);
 
   return (
-    <aside className="fixed left-0 top-0 bottom-0 w-64 bg-ink-900 border-r border-ink-800 flex flex-col z-50">
+    <aside className="fixed left-0 top-0 bottom-0 w-60 bg-ink-900 border-r border-ink-700 flex flex-col z-50">
       {/* Logo */}
-      <div className="p-6 border-b border-ink-800">
+      <div className="px-5 py-5 border-b border-ink-700">
         <Link href="/" className="block">
           <h1 className="font-serif text-2xl tracking-tight">
             <span className="text-amber font-bold">ink</span>
-            <span className="text-ink-300 font-light">.</span>
+            <span className="text-ink-400 font-light">.</span>
           </h1>
-          <p className="text-[10px] uppercase tracking-[0.3em] text-ink-500 mt-1">
+          <p className="text-[9px] uppercase tracking-[0.25em] text-ink-500 mt-0.5">
             INNOVA Ink Studio
           </p>
         </Link>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 py-4 px-3 space-y-1">
-        {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
+      <nav className="flex-1 py-3 px-2.5 space-y-0.5 overflow-y-auto">
+        {NAV_ITEMS.map(({ href, label, icon: Icon, shortcut }) => {
           const isActive =
             href === '/' ? pathname === '/' : pathname.startsWith(href);
 
@@ -52,24 +81,41 @@ export function Sidebar() {
               key={href}
               href={href}
               className={cn(
-                'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-150',
+                'flex items-center justify-between px-3 py-2 rounded-lg text-[13px] transition-all duration-100',
                 isActive
-                  ? 'bg-ink-800 text-white'
-                  : 'text-ink-400 hover:text-ink-200 hover:bg-ink-800/50'
+                  ? 'bg-ink-800 text-ink-50 font-medium'
+                  : 'text-ink-400 hover:text-ink-200 hover:bg-ink-800/60'
               )}
             >
-              <Icon size={18} strokeWidth={isActive ? 2 : 1.5} />
-              <span className={isActive ? 'font-medium' : ''}>{label}</span>
+              <span className="flex items-center gap-2.5">
+                <Icon size={16} strokeWidth={isActive ? 2 : 1.5} />
+                {label}
+              </span>
+              <kbd className="text-[9px] text-ink-500 font-mono hidden lg:inline">
+                {shortcut}
+              </kbd>
             </Link>
           );
         })}
       </nav>
 
-      {/* Footer */}
-      <div className="p-4 border-t border-ink-800">
-        <p className="text-[10px] text-ink-600 text-center">
-          The Ink Register &middot; v1.0
-        </p>
+      {/* Theme toggle + Footer */}
+      <div className="px-3 py-3 border-t border-ink-700 space-y-2">
+        <button
+          onClick={toggleTheme}
+          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] text-ink-400 hover:text-ink-200 hover:bg-ink-800/60 transition cursor-pointer"
+        >
+          {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
+          {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+        </button>
+        <div className="px-3 py-1">
+          <p className="text-[9px] text-ink-500">
+            The Ink Register &middot; v2.0
+          </p>
+          <p className="text-[9px] text-ink-600 mt-0.5">
+            Built for INNOVA AM Tech
+          </p>
+        </div>
       </div>
     </aside>
   );
