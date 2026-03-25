@@ -1,183 +1,230 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Key, Save, Check, AlertCircle, Zap } from 'lucide-react';
+import { Key, Check, AlertCircle, Zap, Eye, EyeOff, Loader2, Wifi, WifiOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { isSupabaseConfigured } from '@/lib/supabase';
+import { PROVIDERS, getProviderKey, setProviderKey } from '@/lib/providers';
+
+interface ProviderState {
+  key: string;
+  showKey: boolean;
+  status: 'idle' | 'testing' | 'ok' | 'error';
+  detail: string;
+}
 
 export default function SettingsPage() {
-  const [repKey, setRepKey] = useState('');
-  const [saved, setSaved] = useState(false);
   const [supabaseOk, setSupabaseOk] = useState(false);
-  const [hfStatus, setHfStatus] = useState<'checking' | 'ok' | 'missing'>('checking');
+  const [providers, setProviders] = useState<Record<string, ProviderState>>({});
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setRepKey(localStorage.getItem('ink_api_replicate') || '');
-      setSupabaseOk(isSupabaseConfigured());
+    setSupabaseOk(isSupabaseConfigured());
 
-      // Check if HF_TOKEN is configured server-side by pinging the API
-      fetch('/api/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: '' }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          // If we get "prompt is required" instead of "HF_TOKEN is not configured",
-          // the token is set
-          if (data.error?.includes('HF_TOKEN')) {
-            setHfStatus('missing');
-          } else {
-            setHfStatus('ok');
-          }
-        })
-        .catch(() => setHfStatus('missing'));
+    // Initialize provider states from localStorage
+    const initial: Record<string, ProviderState> = {};
+    for (const p of PROVIDERS) {
+      initial[p.id] = {
+        key: getProviderKey(p.id),
+        showKey: false,
+        status: p.isServerSide ? 'ok' : (getProviderKey(p.id) ? 'idle' : 'idle'),
+        detail: p.isServerSide ? 'Built-in server token' : '',
+      };
     }
+    setProviders(initial);
   }, []);
 
-  const handleSave = () => {
-    if (repKey.trim()) {
-      localStorage.setItem('ink_api_replicate', repKey.trim());
-    } else {
-      localStorage.removeItem('ink_api_replicate');
+  const updateProvider = (id: string, updates: Partial<ProviderState>) => {
+    setProviders((prev) => ({ ...prev, [id]: { ...prev[id], ...updates } }));
+  };
+
+  const handleSaveKey = (providerId: string) => {
+    const state = providers[providerId];
+    if (!state) return;
+    setProviderKey(providerId, state.key);
+  };
+
+  const handleTestConnection = async (providerId: string) => {
+    const state = providers[providerId];
+    if (!state) return;
+
+    updateProvider(providerId, { status: 'testing', detail: 'Testing...' });
+
+    try {
+      const res = await fetch('/api/test-connection', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          provider: providerId,
+          apiKey: state.key || undefined,
+        }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        updateProvider(providerId, { status: 'ok', detail: data.detail || 'Connected' });
+      } else {
+        updateProvider(providerId, { status: 'error', detail: data.error || 'Connection failed' });
+      }
+    } catch {
+      updateProvider(providerId, { status: 'error', detail: 'Network error' });
     }
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
   };
 
   return (
     <div className="min-h-screen p-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-serif font-bold text-white">Settings</h1>
-        <p className="text-ink-400 mt-1">API keys, storage, and configuration</p>
+        <h1 className="text-2xl font-serif font-bold text-ink-50">Settings</h1>
+        <p className="text-ink-500 text-sm mt-0.5">API providers, storage, and configuration</p>
       </div>
 
-      <div className="max-w-2xl space-y-6">
-        {/* Connection Status */}
-        <div className="bg-ink-900 border border-ink-800 rounded-xl p-5">
-          <h2 className="text-sm font-semibold text-white mb-4">Connection Status</h2>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-ink-300">Supabase</span>
-              {supabaseOk ? (
-                <Badge variant="success">Connected</Badge>
-              ) : (
-                <Badge variant="warning">Using Local Storage</Badge>
-              )}
+      <div className="max-w-3xl space-y-6">
+        {/* Connection Overview */}
+        <div className="bg-ink-900 border border-ink-700 rounded-xl p-5">
+          <h2 className="text-sm font-semibold text-ink-100 mb-4">System Status</h2>
+          <div className="flex flex-wrap gap-3">
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-ink-800 border border-ink-700">
+              {supabaseOk ? <Wifi size={14} className="text-emerald-500" /> : <WifiOff size={14} className="text-amber" />}
+              <span className="text-xs text-ink-300">
+                Storage: {supabaseOk ? 'Supabase' : 'Local Storage'}
+              </span>
             </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-ink-300">Hugging Face API</span>
-                <span className="text-[10px] text-ink-500">(server-side)</span>
-              </div>
-              {hfStatus === 'checking' ? (
-                <Badge>Checking...</Badge>
-              ) : hfStatus === 'ok' ? (
-                <Badge variant="success">Connected</Badge>
-              ) : (
-                <Badge variant="warning">Not Configured</Badge>
-              )}
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-ink-300">Replicate API</span>
-              {repKey ? (
-                <Badge variant="success">Key Set</Badge>
-              ) : (
-                <Badge>Not Configured</Badge>
-              )}
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-ink-800 border border-ink-700">
+              <span className="text-xs text-ink-300">
+                Active providers: {Object.values(providers).filter((p) => p.status === 'ok' || p.key).length}
+              </span>
             </div>
           </div>
         </div>
 
-        {/* HF Info */}
-        <div className="bg-ink-900 border border-ink-800 rounded-xl p-5 space-y-3">
-          <h2 className="text-sm font-semibold text-white flex items-center gap-2">
-            <Zap size={16} /> Hugging Face (Live Generation)
+        {/* Provider Cards */}
+        <div>
+          <h2 className="text-sm font-semibold text-ink-100 mb-4 flex items-center gap-2">
+            <Zap size={16} /> Image Generation Providers
           </h2>
-          {hfStatus === 'ok' ? (
-            <div className="space-y-2">
-              <p className="text-xs text-emerald-400">
-                HF_TOKEN is configured. Live generation is active.
-              </p>
-              <div className="text-xs text-ink-400 space-y-1">
-                <p><strong>Primary model:</strong> FLUX.1-schnell (fast, ~10s)</p>
-                <p><strong>Fallback model:</strong> Stable Diffusion XL (auto-fallback if primary fails)</p>
-              </div>
-            </div>
-          ) : (
-            <div className="space-y-2">
-              <p className="text-xs text-ink-400">
-                To enable live generation, set <code className="text-amber bg-ink-800 px-1 rounded">HF_TOKEN</code> in your <code className="text-amber bg-ink-800 px-1 rounded">.env.local</code> file:
-              </p>
-              <pre className="text-xs text-ink-400 bg-ink-950 rounded-lg p-3 font-mono">
-{`HF_TOKEN=hf_your_token_here`}
-              </pre>
-              <p className="text-[10px] text-ink-600">
-                Get a free token at huggingface.co/settings/tokens
-              </p>
-            </div>
-          )}
-        </div>
 
-        {/* Additional API Keys */}
-        <div className="bg-ink-900 border border-ink-800 rounded-xl p-5 space-y-4">
-          <h2 className="text-sm font-semibold text-white flex items-center gap-2">
-            <Key size={16} /> Additional API Keys
-          </h2>
-          <p className="text-xs text-ink-500">
-            Optional keys stored in your browser for additional model access.
-          </p>
+          <div className="space-y-3">
+            {PROVIDERS.map((provider) => {
+              const state = providers[provider.id];
+              if (!state) return null;
 
-          <Input
-            label="Replicate API Token"
-            value={repKey}
-            onChange={(e) => setRepKey(e.target.value)}
-            placeholder="r8_..."
-            type="password"
-          />
-          <p className="text-[10px] text-ink-600 -mt-2">
-            $5 free credits — enables FLUX.1-schnell via Replicate
-          </p>
+              return (
+                <div
+                  key={provider.id}
+                  className={`bg-ink-900 border rounded-xl p-5 transition-all ${
+                    state.status === 'ok' ? 'border-emerald-600/30' : state.status === 'error' ? 'border-red-600/30' : 'border-ink-700'
+                  }`}
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl">{provider.icon}</span>
+                      <div>
+                        <h3 className="text-sm font-semibold text-ink-100">{provider.name}</h3>
+                        <p className="text-[11px] text-ink-500 mt-0.5">{provider.description}</p>
+                      </div>
+                    </div>
+                    <div>
+                      {state.status === 'ok' && <Badge variant="success">Connected</Badge>}
+                      {state.status === 'error' && <Badge variant="warning">Error</Badge>}
+                      {state.status === 'testing' && <Badge>Testing...</Badge>}
+                      {state.status === 'idle' && state.key && <Badge>Key Set</Badge>}
+                      {state.status === 'idle' && !state.key && !provider.isServerSide && <Badge>Not Configured</Badge>}
+                    </div>
+                  </div>
 
-          <Button onClick={handleSave}>
-            {saved ? <Check size={14} /> : <Save size={14} />}
-            {saved ? 'Saved!' : 'Save API Keys'}
-          </Button>
+                  {/* Models */}
+                  <div className="flex flex-wrap gap-1.5 mb-3">
+                    {provider.models.map((m) => (
+                      <span key={m.id} className="px-2 py-0.5 rounded bg-ink-800 text-[10px] text-ink-400 border border-ink-700">
+                        {m.name} {m.speed && <span className="text-ink-500">{m.speed}</span>}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* API Key Input */}
+                  {!provider.isServerSide && (
+                    <div className="flex gap-2">
+                      <div className="relative flex-1">
+                        <Key size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-500" />
+                        <input
+                          type={state.showKey ? 'text' : 'password'}
+                          value={state.key}
+                          onChange={(e) => updateProvider(provider.id, { key: e.target.value })}
+                          onBlur={() => handleSaveKey(provider.id)}
+                          placeholder={provider.keyFormat}
+                          className="w-full bg-ink-800 border border-ink-700 rounded-lg pl-9 pr-10 py-2 text-xs text-ink-100 font-mono placeholder:text-ink-600 focus:outline-none focus:ring-1 focus:ring-amber/50"
+                        />
+                        <button
+                          onClick={() => updateProvider(provider.id, { showKey: !state.showKey })}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-500 hover:text-ink-300 cursor-pointer"
+                        >
+                          {state.showKey ? <EyeOff size={14} /> : <Eye size={14} />}
+                        </button>
+                      </div>
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        onClick={() => handleTestConnection(provider.id)}
+                        disabled={state.status === 'testing' || (!state.key && !provider.isServerSide)}
+                      >
+                        {state.status === 'testing' ? <Loader2 size={14} className="animate-spin" /> : <Check size={14} />}
+                        Test
+                      </Button>
+                    </div>
+                  )}
+
+                  {/* Server-side info */}
+                  {provider.isServerSide && (
+                    <p className="text-[10px] text-emerald-500/80 flex items-center gap-1">
+                      <Check size={12} /> Built-in server token. Always available. Add your own HF Pro token for faster generation.
+                    </p>
+                  )}
+
+                  {/* Status detail */}
+                  {state.detail && state.status !== 'idle' && (
+                    <p className={`text-[10px] mt-2 ${state.status === 'ok' ? 'text-emerald-500' : state.status === 'error' ? 'text-red-400' : 'text-ink-500'}`}>
+                      {state.detail}
+                    </p>
+                  )}
+
+                  {/* Signup link */}
+                  {!provider.isServerSide && (
+                    <p className="text-[10px] text-ink-600 mt-2">
+                      Get your key at{' '}
+                      <a href={provider.signupUrl} target="_blank" rel="noopener noreferrer" className="text-amber hover:underline">
+                        {provider.signupUrl.replace('https://', '').split('/')[0]}
+                      </a>
+                    </p>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {/* Supabase Config */}
-        <div className="bg-ink-900 border border-ink-800 rounded-xl p-5 space-y-4">
-          <h2 className="text-sm font-semibold text-white flex items-center gap-2">
+        <div className="bg-ink-900 border border-ink-700 rounded-xl p-5 space-y-3">
+          <h2 className="text-sm font-semibold text-ink-100 flex items-center gap-2">
             <AlertCircle size={16} /> Supabase Configuration
           </h2>
           <p className="text-xs text-ink-400">
-            To connect Supabase, set these environment variables in <code className="text-amber bg-ink-800 px-1 rounded">.env.local</code>:
+            Set environment variables in <code className="text-amber bg-ink-800 px-1 rounded text-[11px]">.env.local</code> to enable cloud storage:
           </p>
-          <pre className="text-xs text-ink-400 bg-ink-950 rounded-lg p-3 font-mono">
+          <pre className="text-[11px] text-ink-400 bg-ink-950 rounded-lg p-3 font-mono">
 {`NEXT_PUBLIC_SUPABASE_URL=your-project-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key`}
           </pre>
-          <p className="text-xs text-ink-500">
-            Without Supabase, the app uses browser local storage for all data.
-            This works perfectly for single-user use.
-          </p>
+          <p className="text-[10px] text-ink-600">Without Supabase, data is stored in browser localStorage.</p>
         </div>
 
-        {/* Storage Info */}
-        <div className="bg-ink-900 border border-ink-800 rounded-xl p-5">
-          <h2 className="text-sm font-semibold text-white mb-3">Storage</h2>
-          <p className="text-xs text-ink-400">
-            {supabaseOk
-              ? 'Images are stored in Supabase Storage. Data persists across devices.'
-              : 'Images are stored as data URLs in local storage. Data is browser-specific.'}
+        {/* Clear Data */}
+        <div className="bg-ink-900 border border-ink-700 rounded-xl p-5">
+          <h2 className="text-sm font-semibold text-ink-100 mb-3">Storage</h2>
+          <p className="text-xs text-ink-400 mb-3">
+            {supabaseOk ? 'Cloud storage via Supabase.' : 'Browser local storage. Data is device-specific.'}
           </p>
           <Button
             variant="danger"
             size="sm"
-            className="mt-3"
             onClick={() => {
               if (confirm('Clear all local data? This cannot be undone.')) {
                 localStorage.removeItem('ink_generations');
