@@ -18,7 +18,7 @@ import { Button } from '@/components/ui/button';
 import { Select } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { ColourPicker } from '@/components/ui/colour-picker';
-import { assemblePrompt, assemblePlatformPrompt, assembleRawPrompt, PLATFORM_LABELS } from '@/lib/prompt-engine';
+import { assemblePrompt, assemblePlatformPrompt, assembleRawPrompt, PLATFORM_LABELS, PLATFORM_CHAR_LIMITS } from '@/lib/prompt-engine';
 import type { PlatformVariant, PromptParams } from '@/lib/prompt-engine';
 import {
   INK_MODE_LABELS,
@@ -400,8 +400,29 @@ export default function GeneratorPage() {
                   ))}
               </div>
 
-              <span className="ml-auto text-[10px] text-ink-500">
-                {displayPrompt.length} chars
+              <span className="ml-auto text-[10px] flex items-center gap-1.5">
+                {(() => {
+                  const len = displayPrompt.length;
+                  const limit = PLATFORM_CHAR_LIMITS[activePlatform];
+                  const overLimit = limit !== null && len > limit;
+                  return (
+                    <>
+                      <span className={overLimit ? 'text-red-500 font-semibold' : 'text-ink-500'}>
+                        {len.toLocaleString()} chars
+                      </span>
+                      {limit !== null && (
+                        <span className={overLimit ? 'text-red-400' : 'text-ink-600'}>
+                          / {limit.toLocaleString()} max
+                        </span>
+                      )}
+                      {overLimit && (
+                        <span className="text-red-400 font-medium">
+                          — over limit, reduce detail or shorten subject
+                        </span>
+                      )}
+                    </>
+                  );
+                })()}
               </span>
             </div>
           </div>
