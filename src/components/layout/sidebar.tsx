@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Pen,
   LayoutGrid,
@@ -14,6 +14,8 @@ import {
   Sun,
   Moon,
   Layout,
+  Menu,
+  X,
 } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { useTheme } from '@/lib/theme';
@@ -32,11 +34,16 @@ const NAV_ITEMS = [
 export function Sidebar() {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  // Close mobile menu on navigation
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
 
   // Keyboard shortcuts
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
-      // Don't trigger if typing in an input/textarea
       if (
         e.target instanceof HTMLInputElement ||
         e.target instanceof HTMLTextAreaElement ||
@@ -55,8 +62,8 @@ export function Sidebar() {
     return () => window.removeEventListener('keydown', handleKey);
   }, []);
 
-  return (
-    <aside className="fixed left-0 top-0 bottom-0 w-60 bg-ink-900 border-r border-ink-700 flex flex-col z-50">
+  const sidebarContent = (
+    <>
       {/* Logo */}
       <div className="px-5 py-5 border-b border-ink-700">
         <Link href="/" className="block">
@@ -73,9 +80,7 @@ export function Sidebar() {
       {/* Navigation */}
       <nav className="flex-1 py-3 px-2.5 space-y-0.5 overflow-y-auto">
         {NAV_ITEMS.map(({ href, label, icon: Icon, shortcut }) => {
-          const isActive =
-            href === '/' ? pathname === '/' : pathname.startsWith(href);
-
+          const isActive = href === '/' ? pathname === '/' : pathname.startsWith(href);
           return (
             <Link
               key={href}
@@ -91,9 +96,7 @@ export function Sidebar() {
                 <Icon size={16} strokeWidth={isActive ? 2 : 1.5} />
                 {label}
               </span>
-              <kbd className="text-[9px] text-ink-500 font-mono hidden lg:inline">
-                {shortcut}
-              </kbd>
+              <kbd className="text-[9px] text-ink-500 font-mono hidden xl:inline">{shortcut}</kbd>
             </Link>
           );
         })}
@@ -109,14 +112,47 @@ export function Sidebar() {
           {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
         </button>
         <div className="px-3 py-1">
-          <p className="text-[9px] text-ink-500">
-            The Ink Register &middot; v2.0
-          </p>
-          <p className="text-[9px] text-ink-600 mt-0.5">
-            Built for INNOVA AM Tech
-          </p>
+          <p className="text-[9px] text-ink-500">The Ink Register &middot; v2.0</p>
+          <p className="text-[9px] text-ink-600 mt-0.5">Built for INNOVA AM Tech</p>
         </div>
       </div>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      {/* Mobile hamburger */}
+      <button
+        onClick={() => setMobileOpen(true)}
+        className="fixed top-4 left-4 z-50 lg:hidden p-2 rounded-lg bg-ink-900 border border-ink-700 text-ink-300 hover:text-ink-100 transition cursor-pointer"
+      >
+        <Menu size={20} />
+      </button>
+
+      {/* Mobile overlay */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-black/40 lg:hidden"
+          onClick={() => setMobileOpen(false)}
+        >
+          <aside
+            className="w-60 h-full bg-ink-900 border-r border-ink-700 flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="absolute top-4 right-4">
+              <button onClick={() => setMobileOpen(false)} className="text-ink-400 hover:text-ink-200 cursor-pointer">
+                <X size={20} />
+              </button>
+            </div>
+            {sidebarContent}
+          </aside>
+        </div>
+      )}
+
+      {/* Desktop sidebar */}
+      <aside className="hidden lg:flex fixed left-0 top-0 bottom-0 w-60 bg-ink-900 border-r border-ink-700 flex-col z-40">
+        {sidebarContent}
+      </aside>
+    </>
   );
 }

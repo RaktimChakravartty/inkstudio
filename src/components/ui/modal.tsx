@@ -18,39 +18,41 @@ export function Modal({ open, onClose, title, children, className }: ModalProps)
   useEffect(() => {
     if (open) {
       document.body.style.overflow = 'hidden';
+      const handleEscape = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') onClose();
+      };
+      window.addEventListener('keydown', handleEscape);
+      return () => {
+        document.body.style.overflow = '';
+        window.removeEventListener('keydown', handleEscape);
+      };
     } else {
       document.body.style.overflow = '';
     }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [open]);
+  }, [open, onClose]);
 
   if (!open) return null;
 
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm"
       onClick={(e) => e.target === overlayRef.current && onClose()}
     >
-      <div
-        className={cn(
-          'bg-ink-900 border border-ink-700 rounded-xl shadow-2xl w-full max-w-lg mx-4',
-          'animate-in fade-in zoom-in-95 duration-200',
-          className
-        )}
-      >
-        <div className="flex items-center justify-between px-6 py-4 border-b border-ink-800">
-          <h2 className="text-lg font-semibold text-white">{title}</h2>
+      <div className={cn(
+        'bg-ink-900 border border-ink-700 rounded-xl shadow-2xl w-full max-w-lg mx-4 max-h-[90vh] flex flex-col',
+        className
+      )}>
+        <div className="flex items-center justify-between px-6 py-4 border-b border-ink-700 flex-shrink-0">
+          <h2 className="text-base font-semibold text-ink-50">{title}</h2>
           <button
             onClick={onClose}
-            className="text-ink-400 hover:text-ink-200 transition-colors p-1 rounded-md hover:bg-ink-800"
+            className="text-ink-400 hover:text-ink-200 transition-colors p-1 rounded-md hover:bg-ink-800 cursor-pointer"
           >
             <X size={18} />
           </button>
         </div>
-        <div className="px-6 py-4">{children}</div>
+        <div className="px-6 py-4 overflow-y-auto">{children}</div>
       </div>
     </div>
   );
