@@ -35,10 +35,12 @@ import {
 import type { Generation, InkMode, Vertical, GenerationStatus } from '@/types/database';
 
 type Density = 'compact' | 'comfortable' | 'large';
+type ModuleType = 'all' | 'illustration' | 'photography' | 'icon' | 'pattern';
 
 export default function GalleryPage() {
   const [generations, setGenerations] = useState<Generation[]>([]);
   const [loading, setLoading] = useState(true);
+  const [filterType, setFilterType] = useState<ModuleType>('all');
   const [filterMode, setFilterMode] = useState<InkMode | 'all'>('all');
   const [filterVertical, setFilterVertical] = useState<Vertical | 'all'>('all');
   const [filterStatus, setFilterStatus] = useState<GenerationStatus | 'all'>('all');
@@ -169,6 +171,19 @@ export default function GalleryPage() {
           />
         </div>
 
+        {/* Type filter */}
+        {(['all', 'illustration', 'photography', 'icon', 'pattern'] as ModuleType[]).map((t) => (
+          <button
+            key={t}
+            onClick={() => setFilterType(t)}
+            className={`px-2.5 py-1 rounded-lg text-[11px] border cursor-pointer transition ${
+              filterType === t ? 'bg-ink-800 border-cinnamon/50 text-ink-50' : 'border-ink-700 text-ink-400 hover:border-ink-600'
+            }`}
+          >{t === 'all' ? 'All Types' : t.charAt(0).toUpperCase() + t.slice(1)}</button>
+        ))}
+
+        <span className="text-ink-700">|</span>
+
         {/* Status chips */}
         {(['all', 'pending', 'approved', 'rejected'] as const).map((s) => (
           <button
@@ -208,10 +223,10 @@ export default function GalleryPage() {
         <div className="flex items-center justify-center h-64 text-ink-500">Loading...</div>
       ) : filtered.length === 0 ? (
         <div className="flex flex-col items-center justify-center h-64 text-center">
-          <p className="text-ink-400 text-lg">No illustrations yet</p>
-          <p className="text-ink-500 text-sm mt-1">Generate or upload illustrations from the Generator page</p>
-          <a href="/" className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber text-ink-950 font-semibold text-sm hover:bg-amber/90 transition">
-            Generate your first illustration
+          <p className="text-ink-300 text-lg font-display font-semibold">Your visual library starts here</p>
+          <p className="text-ink-500 text-sm mt-1 max-w-md">Generate prompts in any module, then save outputs to build your reference collection.</p>
+          <a href="/illustration" className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-cinnamon text-white font-medium text-sm hover:bg-cinnamon/90 transition">
+            Go to Illustration →
           </a>
         </div>
       ) : (

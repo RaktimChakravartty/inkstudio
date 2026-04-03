@@ -89,10 +89,10 @@ export default function AnalyticsPage() {
           <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-ink-800 border border-ink-700 flex items-center justify-center">
             <BarChart3 size={24} className="text-ink-400" />
           </div>
-          <p className="text-ink-300 text-lg font-medium">No data yet</p>
-          <p className="text-ink-500 text-sm mt-1">Generate or upload illustrations to see analytics</p>
-          <a href="/" className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber text-ink-950 font-semibold text-sm hover:bg-amber/90 transition">
-            Start Generating
+          <p className="text-ink-300 text-lg font-display font-semibold">No data yet</p>
+          <p className="text-ink-500 text-sm mt-1">Generate and copy prompts to see usage analytics here.</p>
+          <a href="/illustration" className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-cinnamon text-white font-medium text-sm hover:bg-cinnamon/90 transition">
+            Start Generating →
           </a>
         </div>
       ) : (
