@@ -204,7 +204,7 @@ export function Sidebar() {
       {/* Mobile overlay */}
       {mobileOpen && (
         <div className="fixed inset-0 z-50 bg-black/40 lg:hidden" onClick={() => setMobileOpen(false)}>
-          <aside className="w-60 h-full bg-ink-900 border-r border-ink-700 flex flex-col" onClick={(e) => e.stopPropagation()}>
+          <aside className="w-60 h-full sidebar-bg border-r border-ink-700 flex flex-col" onClick={(e) => e.stopPropagation()}>
             <div className="absolute top-4 right-4">
               <button onClick={() => setMobileOpen(false)} className="text-ink-400 hover:text-ink-200 cursor-pointer"><X size={20} /></button>
             </div>
@@ -214,7 +214,7 @@ export function Sidebar() {
       )}
 
       {/* Desktop sidebar */}
-      <aside className={cn('hidden lg:flex fixed left-0 top-0 bottom-0 bg-ink-900 border-r border-ink-700 flex-col z-40 transition-all duration-200', width)}>
+      <aside className={cn('hidden lg:flex fixed left-0 top-0 bottom-0 sidebar-bg border-r border-ink-700 flex-col z-40 transition-all duration-200', width)}>
         {content}
       </aside>
     </>
