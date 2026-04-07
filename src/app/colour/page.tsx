@@ -1,6 +1,6 @@
-import type { Metadata } from 'next';
+'use client';
 
-export const metadata: Metadata = { title: 'Colour System — INNOVA' };
+import { useToast } from '@/components/shared/Toast';
 
 const VERTICALS = [
   { name: 'Cinnamon', hex: '#D4772E', vertical: 'Space', desc: 'Managed offices and coworking', rgb: '212, 119, 46', cmyk: '0, 44, 78, 17', pantone: '7571 C',
@@ -28,6 +28,11 @@ function isLight(hex: string): boolean {
 }
 
 export default function ColourPage() {
+  const { showToast } = useToast();
+  const copyHex = (hex: string) => {
+    navigator.clipboard.writeText(hex);
+    showToast(`Copied ${hex}`);
+  };
   return (
     <div className="min-h-screen">
       {/* Hero */}
@@ -51,7 +56,7 @@ export default function ColourPage() {
                   <p className="font-body text-xs text-white/70 mt-0.5">{v.desc}</p>
                 </div>
                 <div className="p-5 bg-ink-900">
-                  <p className="font-mono text-lg font-bold text-ink-100">{v.hex}</p>
+                  <button onClick={() => copyHex(v.hex)} className="font-mono text-lg font-bold text-ink-100 hover:text-cinnamon transition-colors cursor-pointer">{v.hex}</button>
                   <p className="font-body text-sm text-ink-300 mt-0.5">{v.name}</p>
                   <div className="mt-3 space-y-1 font-mono text-[10px] text-ink-500">
                     <p>RGB {v.rgb}</p>
@@ -72,9 +77,9 @@ export default function ColourPage() {
               <p className="font-mono text-[10px] text-ink-500 uppercase tracking-wider mb-2">{v.name}</p>
               <div className="flex rounded-lg overflow-hidden border border-ink-700">
                 {v.scale.map((s) => (
-                  <div key={s.s} className="flex-1 h-[72px] flex items-center justify-center" style={{ backgroundColor: s.h }}>
-                    <span className={`font-mono text-[9px] ${isLight(s.h) ? 'text-[#191919]' : 'text-white'}`}>{s.h}</span>
-                  </div>
+                  <button key={s.s} onClick={() => copyHex(s.h)} className="flex-1 h-[72px] flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity" style={{ backgroundColor: s.h }}>
+                    <span className={`font-mono text-[9px] ${isLight(s.h) ? 'text-[#1A1A1A]' : 'text-white'}`}>{s.h}</span>
+                  </button>
                 ))}
               </div>
             </div>
@@ -86,10 +91,10 @@ export default function ColourPage() {
           <h2 className="font-display text-xl font-semibold text-ink-100 mb-6">Neutral Palette</h2>
           <div className="flex rounded-lg overflow-hidden border border-ink-700">
             {NEUTRALS.map((n) => (
-              <div key={n.name} className="flex-1 h-[72px] flex flex-col items-center justify-center" style={{ backgroundColor: n.hex }}>
-                <span className={`font-mono text-[9px] ${isLight(n.hex) ? 'text-[#191919]' : 'text-white'}`}>{n.name}</span>
-                <span className={`font-mono text-[8px] mt-0.5 ${isLight(n.hex) ? 'text-[#191919]/60' : 'text-white/60'}`}>{n.hex}</span>
-              </div>
+              <button key={n.name} onClick={() => copyHex(n.hex)} className="flex-1 h-[72px] flex flex-col items-center justify-center cursor-pointer hover:opacity-80 transition-opacity" style={{ backgroundColor: n.hex }}>
+                <span className={`font-mono text-[9px] ${isLight(n.hex) ? 'text-[#1A1A1A]' : 'text-white'}`}>{n.name}</span>
+                <span className={`font-mono text-[8px] mt-0.5 ${isLight(n.hex) ? 'text-[#1A1A1A]/60' : 'text-white/60'}`}>{n.hex}</span>
+              </button>
             ))}
           </div>
         </section>
