@@ -1,6 +1,7 @@
 'use client';
 
 import { useToast } from '@/components/shared/Toast';
+import { Brandmark } from '@/components/brand/Brandmark';
 
 const VERTICALS = [
   { name: 'Cinnamon', hex: '#D4772E', vertical: 'Space', desc: 'Managed offices and coworking', rgb: '212, 119, 46', cmyk: '0, 44, 78, 17', pantone: '7571 C',
@@ -38,7 +39,7 @@ export default function ColourPage() {
       {/* Hero */}
       <div className="bg-[#191919] px-8 py-12">
         <div className="max-w-[1000px] mx-auto">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 303.32 303.32" className="w-10 h-10 mb-4" fill="#FAF7F3"><path d="M253.46,0H49.86C22.32,0,0,22.32,0,49.86v203.6c0,27.54,22.32,49.86,49.86,49.86h203.6c27.54,0,49.86-22.32,49.86-49.86V49.86c0-27.54-22.32-49.86-49.86-49.86ZM151.72,78.49c8.72,0,15.79,7.07,15.79,15.79s-7.07,15.79-15.79,15.79-15.79-7.07-15.79-15.79,7.07-15.79,15.79-15.79ZM196.74,224.83h-90.16v-28.68h29.3v-47.33l-25.21,1.23v-28.68l38.93-2.05c5.73-.27,10.13,1.1,13.2,4.11,3.08,3,4.62,7.37,4.62,13.1v59.63h29.31v28.68Z"/></svg>
+          <Brandmark size={40} color="#FAF7F3" className="mb-4" />
           <h1 className="font-display text-[36px] font-semibold text-[#FAF7F3] tracking-tight">Colour System</h1>
           <p className="font-mono text-[10px] text-[#6B6B6B] mt-2 uppercase tracking-[0.15em]">SPACE · PEOPLE · TECH</p>
         </div>

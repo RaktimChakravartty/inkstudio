@@ -6,7 +6,7 @@ import {
   ArrowRight, BookOpen, Palette, Type, Image, Bookmark, Sliders, Settings,
 } from 'lucide-react';
 import { MODULES, VERTICALS } from '@/lib/constants/brand';
-import { BrandmarkSVG, WordmarkSVG } from '@/components/shared/BrandSVGs';
+import { Wordmark } from '@/components/brand/Wordmark';
 
 const ICON_MAP: Record<string, React.ElementType> = {
   'pen-tool': PenTool, 'aperture': Aperture, 'grid-3x3': Grid3X3,
@@ -36,10 +36,7 @@ export default function DashboardPage() {
     <div className="min-h-screen p-8 max-w-[1100px] mx-auto">
       {/* Hero */}
       <div className="flex flex-col items-center mb-14 pt-8">
-        <div className="flex items-center gap-4 mb-3">
-          <BrandmarkSVG className="w-12 h-12 text-ink-100 flex-shrink-0" />
-          <WordmarkSVG className="h-8 text-ink-100" />
-        </div>
+        <Wordmark height={40} className="text-ink-100 mb-2" />
         <p className="font-mono text-[11px] text-ink-500 uppercase tracking-[0.12em] mt-1">Visual Language Platform</p>
         <div className="flex gap-3 mt-4">
           {Object.values(VERTICALS).map((v) => (

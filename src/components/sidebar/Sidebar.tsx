@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { BrandmarkSVG, WordmarkSVG } from '@/components/shared/BrandSVGs';
+import { Brandmark } from '@/components/brand/Brandmark';
 import {
   PenTool, Aperture, Grid3X3, Layout, PlayCircle, Hexagon,
   Image, Bookmark, Palette, Settings, BookOpen, Type, Sliders,
@@ -123,14 +123,11 @@ export function Sidebar() {
       <div className={cn('border-b border-ink-700', collapsed ? 'px-2 py-4' : 'px-5 py-5')}>
         <Link href="/" className="block">
           {collapsed ? (
-            <BrandmarkSVG className="w-7 h-7 mx-auto text-ink-100" />
+            <Brandmark size={28} className="mx-auto text-ink-100" />
           ) : (
             <>
-              <div className="flex items-center gap-3">
-                <BrandmarkSVG className="w-8 h-8 text-ink-100 flex-shrink-0" />
-                <WordmarkSVG className="h-[18px] text-ink-100" />
-              </div>
-              <p className="font-mono text-[8px] uppercase tracking-[0.1em] text-ink-500 mt-1 ml-[44px]">
+              <Brandmark size={28} className="text-ink-100" />
+              <p className="font-mono text-[9px] uppercase tracking-[0.15em] text-ink-500 mt-2">
                 Visual Language
               </p>
             </>
