@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { Copy, Check, Play } from 'lucide-react';
+import { Copy, Check, Play, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ModuleHeader } from '@/components/shared/ModuleHeader';
 import { useToast } from '@/components/shared/Toast';
@@ -58,7 +58,7 @@ function RevealDemo() {
           <div className="absolute w-0.5 h-16 bg-ink-400 transition-all duration-500 delay-300 origin-top" style={{ transform: playing ? 'scaleY(1)' : 'scaleY(0)', transitionTimingFunction: 'cubic-bezier(0.22, 0.61, 0.36, 1)' }} />
         </>
       )}
-      <button onClick={play} className="absolute bottom-2 right-2 p-1.5 rounded bg-ink-700 text-ink-300 hover:text-ink-100 cursor-pointer"><Play size={12} /></button>
+      <div className="absolute bottom-2 right-2 flex gap-1"><button onClick={play} className="p-1.5 rounded bg-ink-700 text-ink-300 hover:text-ink-100 cursor-pointer" title="Play"><Play size={12} /></button><button onClick={() => { setPlaying(false); }} className="p-1.5 rounded bg-ink-700 text-ink-300 hover:text-ink-100 cursor-pointer" title="Reset"><RotateCcw size={12} /></button></div>
     </div>
   );
 }
@@ -75,7 +75,7 @@ function ConnectDemo() {
           style={{ transition: 'stroke-dashoffset 400ms cubic-bezier(0.45, 0.05, 0.55, 0.95)' }} />
       </svg>
       <div className="w-6 h-6 rounded bg-hunter" />
-      <button onClick={play} className="absolute bottom-2 right-2 p-1.5 rounded bg-ink-700 text-ink-300 hover:text-ink-100 cursor-pointer"><Play size={12} /></button>
+      <div className="absolute bottom-2 right-2 flex gap-1"><button onClick={play} className="p-1.5 rounded bg-ink-700 text-ink-300 hover:text-ink-100 cursor-pointer" title="Play"><Play size={12} /></button><button onClick={() => { setPlaying(false); }} className="p-1.5 rounded bg-ink-700 text-ink-300 hover:text-ink-100 cursor-pointer" title="Reset"><RotateCcw size={12} /></button></div>
     </div>
   );
 }
@@ -87,7 +87,7 @@ function SettleDemo() {
     <div className="relative h-32 flex items-center justify-center bg-ink-800 rounded-lg overflow-hidden">
       <div className={`w-12 h-12 rounded-lg bg-cinnamon/80 transition-all duration-300 ${playing ? 'translate-y-0 opacity-100' : '-translate-y-5 opacity-0'}`}
         style={{ transitionTimingFunction: 'cubic-bezier(0.22, 0.61, 0.36, 1)' }} />
-      <button onClick={play} className="absolute bottom-2 right-2 p-1.5 rounded bg-ink-700 text-ink-300 hover:text-ink-100 cursor-pointer"><Play size={12} /></button>
+      <div className="absolute bottom-2 right-2 flex gap-1"><button onClick={play} className="p-1.5 rounded bg-ink-700 text-ink-300 hover:text-ink-100 cursor-pointer" title="Play"><Play size={12} /></button><button onClick={() => { setPlaying(false); }} className="p-1.5 rounded bg-ink-700 text-ink-300 hover:text-ink-100 cursor-pointer" title="Reset"><RotateCcw size={12} /></button></div>
     </div>
   );
 }
@@ -189,6 +189,16 @@ export default function MotionPage() {
           {EASING_CURVES.map((c) => (
             <div key={c.name} className="flex flex-col items-center text-center">
               <EasingCurve curve={c.value} />
+              {/* Animated dot track */}
+              <div className="w-full h-4 mt-2 relative bg-ink-800 rounded-full overflow-hidden">
+                <div
+                  className="absolute top-1 left-1 w-2 h-2 rounded-full bg-cinnamon"
+                  style={{
+                    animation: `easing-dot 1.5s ${c.value} infinite alternate`,
+                  }}
+                />
+              </div>
+              <style>{`@keyframes easing-dot { from { left: 4px; } to { left: calc(100% - 12px); } }`}</style>
               <p className="text-[12px] text-ink-200 font-medium mt-2">{c.name}</p>
               <p className="font-mono text-[9px] text-cinnamon mt-0.5">{c.value}</p>
               <p className="text-[10px] text-ink-500 mt-0.5">{c.use}</p>
