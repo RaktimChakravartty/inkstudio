@@ -29,9 +29,9 @@ function GridPreview({ format, vertical, bg }: { format: typeof FORMATS[Applicat
       {/* Accent bar */}
       <rect x={0} y={h - 4} width={w * 0.3} height={4} fill={accent} opacity="0.6" />
       {/* Wordmark zone */}
-      <rect x={m.left} y={m.top} width={liveW * 0.2} height={8} fill="#191919" opacity="0.15" rx="1" />
+      <rect x={m.left} y={m.top} width={liveW * 0.2} height={8} fill="currentColor" opacity="0.15" rx="1" />
       {/* Dimension labels */}
-      <text x={w / 2} y={h - 2} textAnchor="middle" fontSize="5" fill="#9A958F" fontFamily="Space Mono, monospace">{format.width}×{format.height}{format.unit}</text>
+      <text x={w / 2} y={h - 2} textAnchor="middle" fontSize="5" fill="currentColor" opacity="0.5" fontFamily="Space Mono, monospace">{format.width}×{format.height}{format.unit}</text>
     </svg>
   );
 }

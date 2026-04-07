@@ -221,11 +221,11 @@ export default function PatternsPage() {
         <div className="p-8 max-w-3xl mx-auto space-y-6">
           {[
             { name: 'Parallel Line Hatching', rule: 'For mid-tones on specific elements. Suggests volume. Used on clothing or shadowed surfaces.',
-              svg: <svg viewBox="0 0 80 80" className="w-20 h-20 rounded border border-ink-700" style={{ background: 'white' }}>{Array.from({ length: 20 }, (_, i) => <line key={i} x1={i * 5} y1={0} x2={i * 5 + 40} y2={80} stroke="#191919" strokeWidth="0.8" opacity="0.4" />)}</svg> },
+              svg: <svg viewBox="0 0 80 80" className="w-20 h-20 rounded border border-ink-700" style={{ background: 'white' }}>{Array.from({ length: 20 }, (_, i) => <line key={i} x1={i * 5} y1={0} x2={i * 5 + 40} y2={80} stroke="currentColor" strokeWidth="0.8" opacity="0.4" />)}</svg> },
             { name: 'Halftone Dot Pattern', rule: 'Editorial print reference. Adds visual weight. Used very rarely — one element per illustration maximum.',
-              svg: <svg viewBox="0 0 80 80" className="w-20 h-20 rounded border border-ink-700" style={{ background: 'white' }}>{Array.from({ length: 64 }, (_, i) => { const x = (i % 8) * 10 + 5; const y = Math.floor(i / 8) * 10 + 5; const r = 0.5 + (1 - y / 80) * 3; return <circle key={i} cx={x} cy={y} r={r} fill="#191919" opacity="0.5" />; })}</svg> },
+              svg: <svg viewBox="0 0 80 80" className="w-20 h-20 rounded border border-ink-700" style={{ background: 'white' }}>{Array.from({ length: 64 }, (_, i) => { const x = (i % 8) * 10 + 5; const y = Math.floor(i / 8) * 10 + 5; const r = 0.5 + (1 - y / 80) * 3; return <circle key={i} cx={x} cy={y} r={r} fill="currentColor" opacity="0.5" />; })}</svg> },
             { name: 'Pencil/Charcoal Grain', rule: 'Suggests the physical drawing tool. Appears naturally in brush pen strokes.',
-              svg: <svg viewBox="0 0 80 80" className="w-20 h-20 rounded border border-ink-700" style={{ background: 'white' }}>{Array.from({ length: 200 }, (_, i) => { const r = seededRandom(i + 100); return <circle key={i} cx={r() * 80} cy={r() * 80} r={0.3 + r() * 1.2} fill="#191919" opacity={0.05 + r() * 0.15} />; })}</svg> },
+              svg: <svg viewBox="0 0 80 80" className="w-20 h-20 rounded border border-ink-700" style={{ background: 'white' }}>{Array.from({ length: 200 }, (_, i) => { const r = seededRandom(i + 100); return <circle key={i} cx={r() * 80} cy={r() * 80} r={0.3 + r() * 1.2} fill="currentColor" opacity={0.05 + r() * 0.15} />; })}</svg> },
           ].map((t) => (
             <div key={t.name} className="bg-ink-900 border border-ink-700 rounded-xl p-5 flex gap-5">
               {t.svg}

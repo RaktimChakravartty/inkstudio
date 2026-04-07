@@ -178,13 +178,13 @@ export default function IconsPage() {
                 {PRIMITIVES.map((p) => (
                   <div key={p.id} className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-lg bg-ink-800 border border-ink-700 flex items-center justify-center flex-shrink-0">
-                      {p.id === 'P1' && <svg viewBox="0 0 20 20" className="w-5 h-5"><circle cx="10" cy="10" r="6" fill="#191919" /></svg>}
-                      {p.id === 'P2' && <svg viewBox="0 0 20 20" className="w-5 h-5"><rect x="4" y="6" width="12" height="8" rx="4" fill="#191919" /></svg>}
-                      {p.id === 'P3' && <svg viewBox="0 0 20 20" className="w-5 h-5"><path d="M 4 16 A 12 12 0 0 1 16 4" fill="none" stroke="#191919" strokeWidth="2" /></svg>}
-                      {p.id === 'P4' && <svg viewBox="0 0 20 20" className="w-5 h-5"><rect x="9" y="2" width="2" height="16" fill="#191919" /><rect x="2" y="9" width="16" height="2" fill="#191919" /></svg>}
-                      {p.id === 'P5' && <svg viewBox="0 0 20 20" className="w-5 h-5"><path d="M 4 16 Q 4 4 16 4" fill="none" stroke="#191919" strokeWidth="2" /></svg>}
-                      {p.id === 'P6' && <svg viewBox="0 0 20 20" className="w-5 h-5"><circle cx="7" cy="10" r="3" fill="#191919" /><circle cx="14" cy="7" r="2.5" fill="#191919" /><circle cx="13" cy="14" r="2" fill="#191919" /></svg>}
-                      {p.id === 'P7' && <svg viewBox="0 0 20 20" className="w-5 h-5"><circle cx="10" cy="10" r="6" fill="none" stroke="#191919" strokeWidth="2" /></svg>}
+                      {p.id === 'P1' && <svg viewBox="0 0 20 20" className="w-5 h-5"><circle cx="10" cy="10" r="6" fill="currentColor" /></svg>}
+                      {p.id === 'P2' && <svg viewBox="0 0 20 20" className="w-5 h-5"><rect x="4" y="6" width="12" height="8" rx="4" fill="currentColor" /></svg>}
+                      {p.id === 'P3' && <svg viewBox="0 0 20 20" className="w-5 h-5"><path d="M 4 16 A 12 12 0 0 1 16 4" fill="none" stroke="currentColor" strokeWidth="2" /></svg>}
+                      {p.id === 'P4' && <svg viewBox="0 0 20 20" className="w-5 h-5"><rect x="9" y="2" width="2" height="16" fill="currentColor" /><rect x="2" y="9" width="16" height="2" fill="currentColor" /></svg>}
+                      {p.id === 'P5' && <svg viewBox="0 0 20 20" className="w-5 h-5"><path d="M 4 16 Q 4 4 16 4" fill="none" stroke="currentColor" strokeWidth="2" /></svg>}
+                      {p.id === 'P6' && <svg viewBox="0 0 20 20" className="w-5 h-5"><circle cx="7" cy="10" r="3" fill="currentColor" /><circle cx="14" cy="7" r="2.5" fill="currentColor" /><circle cx="13" cy="14" r="2" fill="currentColor" /></svg>}
+                      {p.id === 'P7' && <svg viewBox="0 0 20 20" className="w-5 h-5"><circle cx="10" cy="10" r="6" fill="none" stroke="currentColor" strokeWidth="2" /></svg>}
                     </div>
                     <div>
                       <p className="text-[11px] text-ink-200 font-medium">{p.id} — {p.name}</p>
