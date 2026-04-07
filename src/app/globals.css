@@ -1,18 +1,48 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Space+Mono:wght@400;700&display=swap');
 @import "tailwindcss";
 
+/* ── Runtime CSS variables that swap in dark mode ── */
+:root {
+  --ink-950: #FAF7F3;
+  --ink-900: #FFFFFF;
+  --ink-800: #F0EDE8;
+  --ink-700: #E8E4DF;
+  --ink-600: #C5C1BB;
+  --ink-500: #9A958F;
+  --ink-400: #6B6862;
+  --ink-300: #4A4844;
+  --ink-200: #221F20;
+  --ink-100: #191919;
+  --ink-50: #0f0e0d;
+}
+
+.dark {
+  --ink-950: #111113;
+  --ink-900: #1A1A1C;
+  --ink-800: #222224;
+  --ink-700: #333336;
+  --ink-600: #44444A;
+  --ink-500: #6b6b70;
+  --ink-400: #9A958F;
+  --ink-300: #C5C1BB;
+  --ink-200: #E8E4DF;
+  --ink-100: #FAF7F3;
+  --ink-50: #FFFFFF;
+}
+
+/* ── Tailwind theme: reference runtime variables ── */
 @theme inline {
-  --color-ink-950: #FAF7F3;
-  --color-ink-900: #FFFFFF;
-  --color-ink-800: #F0EDE8;
-  --color-ink-700: #E8E4DF;
-  --color-ink-600: #C5C1BB;
-  --color-ink-500: #9A958F;
-  --color-ink-400: #6B6862;
-  --color-ink-300: #4A4844;
-  --color-ink-200: #221F20;
-  --color-ink-100: #191919;
-  --color-ink-50: #0f0e0d;
+  --color-ink-950: var(--ink-950);
+  --color-ink-900: var(--ink-900);
+  --color-ink-800: var(--ink-800);
+  --color-ink-700: var(--ink-700);
+  --color-ink-600: var(--ink-600);
+  --color-ink-500: var(--ink-500);
+  --color-ink-400: var(--ink-400);
+  --color-ink-300: var(--ink-300);
+  --color-ink-200: var(--ink-200);
+  --color-ink-100: var(--ink-100);
+  --color-ink-50: var(--ink-50);
 
   --color-cinnamon: #D4772E;
   --color-twilight: #2D4272;
@@ -27,86 +57,49 @@
 }
 
 html {
-  background-color: var(--color-ink-950);
-  color: var(--color-ink-100);
+  background-color: var(--ink-950);
+  color: var(--ink-100);
 }
 
 body {
   font-family: var(--font-body);
-  background: var(--color-ink-950);
-  color: var(--color-ink-100);
+  background: var(--ink-950);
+  color: var(--ink-100);
   min-height: 100vh;
   font-size: 14px;
   line-height: 1.5;
 }
-
-/* ── Dark mode ── */
-.dark {
-  --color-ink-950: #111113;
-  --color-ink-900: #1A1A1C;
-  --color-ink-800: #222224;
-  --color-ink-700: #333336;
-  --color-ink-600: #44444A;
-  --color-ink-500: #6b6b70;
-  --color-ink-400: #9A958F;
-  --color-ink-300: #C5C1BB;
-  --color-ink-200: #E8E4DF;
-  --color-ink-100: #FAF7F3;
-  --color-ink-50: #FFFFFF;
-}
-
-.dark body, .dark { background: var(--color-ink-950); color: var(--color-ink-100); }
 
 /* ── Typography classes ── */
 .font-display { font-family: var(--font-display); }
 .font-body { font-family: var(--font-body); }
 .font-mono { font-family: var(--font-mono); }
 
-/* ── Prompt output styling ── */
-.prompt-output {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  line-height: 1.7;
-  letter-spacing: -0.01em;
-}
+/* ── Sidebar warm tone ── */
+.sidebar-bg { background-color: #F5F2ED; }
+.dark .sidebar-bg { background-color: #141414; }
 
-.prompt-output .prompt-section-label {
-  color: var(--color-ink-500);
-  font-weight: 700;
-  letter-spacing: 0.05em;
-}
-
-/* ── Editorial refinements ── */
+/* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--color-ink-600); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-ink-500); }
+::-webkit-scrollbar-thumb { background: var(--ink-600); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-500); }
 
 ::selection { background: rgba(212, 119, 46, 0.15); }
 
-/* Focus ring */
 :focus-visible {
   outline: 2px solid var(--color-cinnamon);
   outline-offset: 2px;
 }
 
-/* Max border-radius: 8px */
+/* ── Editorial: max border-radius 8px ── */
 .rounded-xl { border-radius: 8px !important; }
 .rounded-2xl { border-radius: 8px !important; }
 .rounded-lg { border-radius: 6px !important; }
 
-/* Toast animation */
+/* ── Toast animation ── */
 @keyframes toast-in {
   from { transform: translateY(16px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
-@keyframes toast-out {
-  from { transform: translateY(0); opacity: 1; }
-  to { transform: translateY(16px); opacity: 0; }
-}
 .toast-enter { animation: toast-in 200ms cubic-bezier(0.22, 0.61, 0.36, 1); }
-.toast-exit { animation: toast-out 150ms cubic-bezier(0.55, 0.09, 0.68, 0.53); }
-
-/* Sidebar light mode warm tone */
-.sidebar-bg { background-color: #F5F2ED; }
-.dark .sidebar-bg { background-color: #191919; }
