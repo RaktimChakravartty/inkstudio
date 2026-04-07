@@ -1,31 +1,31 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Brand Guidelines — INNOVA Visual Language',
+  title: 'Brand Guidelines — INNOVA',
 };
 
 export default function GuidelinesPage() {
   return (
-    <div className="min-h-screen">
-      <div className="px-8 py-4 border-b border-ink-700 flex items-center justify-between">
+    <div className="min-h-screen flex flex-col">
+      <div className="px-8 py-3 border-b border-[var(--border-default)] flex items-center justify-between flex-shrink-0">
         <div>
-          <h1 className="font-display text-lg font-semibold text-ink-100">Brand Guidelines V10</h1>
-          <p className="font-mono text-[10px] text-ink-500">April 2026 · Complete brand identity system</p>
+          <h1 className="font-display text-base font-semibold text-[var(--text-primary)]">Brand Guidelines</h1>
+          <p className="font-mono text-[10px] text-[var(--text-muted)]">INNOVA AM Tech — Brand Identity 2026</p>
         </div>
         <a
-          href="/innova_brand_guidelines_v10.html"
+          href="/innova-brand-guidelines.html"
           target="_blank"
           rel="noopener noreferrer"
           className="font-mono text-[11px] text-cinnamon hover:underline"
         >
-          Open in new tab →
+          Open in new tab ↗
         </a>
       </div>
       <iframe
-        src="/innova_brand_guidelines_v10.html"
-        className="w-full border-0"
-        style={{ height: 'calc(100vh - 73px)' }}
-        title="INNOVA Brand Guidelines V10"
+        src="/innova-brand-guidelines.html"
+        className="w-full border-0 flex-1"
+        style={{ minHeight: '600px' }}
+        title="Brand Guidelines"
       />
     </div>
   );
