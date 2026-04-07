@@ -88,7 +88,7 @@ export default function IconsPage() {
   return (
     <div className="min-h-screen">
       <div className="px-8 pt-6 pb-4 border-b border-ink-700">
-        <ModuleHeader system="The Convergence Vocabulary" subtitle="Icon System · Derived from brandmark geometry" />
+        <ModuleHeader system="The Dot Grid" subtitle="Icon System · Derived from brandmark geometry" />
       </div>
 
       <div className="flex h-[calc(100vh-100px)]">

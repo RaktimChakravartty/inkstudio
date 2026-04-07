@@ -49,7 +49,7 @@ export const MODULES = [
   {
     id: 'icons',
     name: 'Icons',
-    system: 'The Convergence Vocabulary',
+    system: 'The Dot Grid',
     description: 'Construction specifications and prompts for the Convergence icon vocabulary',
     icon: 'grid-3x3',
     route: '/icons',

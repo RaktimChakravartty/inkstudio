@@ -12,7 +12,7 @@
   --ink-400: #6B6862;
   --ink-300: #4A4844;
   --ink-200: #221F20;
-  --ink-100: #191919;
+  --ink-100: #1A1A1A;
   --ink-50: #0f0e0d;
 
   /* Semantic aliases */
@@ -20,7 +20,7 @@
   --bg-card: #FFFFFF;
   --bg-sidebar: #F5F2ED;
   --bg-code: #F0EDE8;
-  --text-primary: #191919;
+  --text-primary: #1A1A1A;
   --text-body: #221F20;
   --text-muted: #9A958F;
   --text-faint: #C5C1BB;

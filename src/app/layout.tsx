@@ -5,13 +5,13 @@ import { ThemeProvider } from "@/lib/theme";
 import { ToastProvider } from "@/components/shared/Toast";
 
 export const metadata: Metadata = {
-  title: "INNOVA Visual Language",
+  title: "INNOVA Visual Language Platform",
   description: "Brand visual system for INNOVA AM Tech — illustration, photography, icons, layout, motion, and patterns.",
   icons: {
     icon: '/brandmark.svg',
   },
   openGraph: {
-    title: 'INNOVA Visual Language',
+    title: 'INNOVA Visual Language Platform',
     description: 'Brand visual system for INNOVA AM Tech — illustration, photography, icons, layout, motion, and patterns.',
     images: ['/og-image.svg'],
     type: 'website',
