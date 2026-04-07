@@ -26,7 +26,6 @@
   --text-faint: #C5C1BB;
   --border-default: #E8E4DF;
   --border-strong: #9A958F;
-  --brandmark-filter: none;
 }
 
 .dark {
@@ -52,7 +51,6 @@
   --text-faint: #555250;
   --border-default: #2A2A2A;
   --border-strong: #444444;
-  --brandmark-filter: invert(1) brightness(2);
 }
 
 /* ── Tailwind theme ── */

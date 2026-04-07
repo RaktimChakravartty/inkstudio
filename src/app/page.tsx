@@ -6,6 +6,7 @@ import {
   ArrowRight, BookOpen, Palette, Type, Image,
 } from 'lucide-react';
 import { MODULES, VERTICALS } from '@/lib/constants/brand';
+import { BrandmarkSVG, WordmarkSVG } from '@/components/shared/BrandSVGs';
 
 const ICON_MAP: Record<string, React.ElementType> = {
   'pen-tool': PenTool, 'aperture': Aperture, 'grid-3x3': Grid3X3,
@@ -29,8 +30,8 @@ export default function DashboardPage() {
       {/* Top — Brand identity */}
       <div className="mb-12 pt-6">
         <div className="flex items-center gap-3 mb-3">
-          <img src="/brandmark.svg" alt="INNOVA" className="w-10 h-10" style={{ filter: 'var(--brandmark-filter, none)' }} />
-          <span className="font-display text-[28px] font-semibold text-ink-100 tracking-tight">innova</span>
+          <BrandmarkSVG className="w-10 h-10 text-ink-100 flex-shrink-0" />
+          <WordmarkSVG className="h-7 text-ink-100" />
         </div>
         <p className="text-[16px] text-ink-400">Visual Language Platform</p>
         <div className="flex gap-3 mt-3">

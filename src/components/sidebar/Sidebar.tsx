@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { BrandmarkSVG, WordmarkSVG } from '@/components/shared/BrandSVGs';
 import {
   PenTool, Aperture, Grid3X3, Layout, PlayCircle, Hexagon,
   Image, Bookmark, Palette, Settings, BookOpen, Type, Sliders,
@@ -122,15 +123,15 @@ export function Sidebar() {
       <div className={cn('border-b border-ink-700', collapsed ? 'px-2 py-4' : 'px-5 py-5')}>
         <Link href="/" className="block">
           {collapsed ? (
-            <img src="/brandmark.svg" alt="INNOVA" className="w-7 h-7 mx-auto text-ink-100" style={{ filter: 'var(--brandmark-filter, none)' }} />
+            <BrandmarkSVG className="w-7 h-7 mx-auto text-ink-100" />
           ) : (
             <>
-              <div className="flex items-center gap-2.5">
-                <img src="/brandmark.svg" alt="INNOVA" className="w-8 h-8 text-ink-100" style={{ filter: 'var(--brandmark-filter, none)' }} />
-                <span className="font-display text-lg font-semibold text-ink-100 tracking-tight">innova</span>
+              <div className="flex items-center gap-3">
+                <BrandmarkSVG className="w-8 h-8 text-ink-100 flex-shrink-0" />
+                <WordmarkSVG className="h-[18px] text-ink-100" />
               </div>
-              <p className="font-mono text-[8px] uppercase tracking-[0.15em] text-ink-500 mt-1 ml-[42px]">
-                VISUAL LANGUAGE
+              <p className="font-mono text-[8px] uppercase tracking-[0.1em] text-ink-500 mt-1 ml-[44px]">
+                Visual Language
               </p>
             </>
           )}
