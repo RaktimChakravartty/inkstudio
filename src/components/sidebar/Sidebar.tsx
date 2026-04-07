@@ -195,7 +195,7 @@ export function Sidebar() {
         </button>
         {!collapsed && (
           <div className="px-3 py-1">
-            <p className="font-mono text-[8px] text-ink-500">INNOVA AM Tech · Visual Language Platform</p>
+            <p className="font-mono text-[8px] text-ink-500">INNOVA AM Tech</p>
           </div>
         )}
       </div>
