@@ -116,15 +116,15 @@ export function Sidebar() {
       <div className={cn('border-b border-ink-700', collapsed ? 'px-2 py-4' : 'px-5 py-5')}>
         <Link href="/" className="block">
           {collapsed ? (
-            <span className="font-display italic text-xl text-cinnamon font-semibold block text-center">i.</span>
+            <img src="/brandmark.svg" alt="INNOVA" className="w-7 h-7 mx-auto text-ink-100" style={{ filter: 'var(--brandmark-filter, none)' }} />
           ) : (
             <>
-              <h1 className="font-display italic text-2xl tracking-tight">
-                <span className="text-cinnamon font-semibold">ivl</span>
-                <span className="text-ink-400 font-light">.</span>
-              </h1>
-              <p className="font-mono text-[8px] uppercase tracking-[0.15em] text-ink-500 mt-0.5">
-                INNOVA VISUAL LANGUAGE
+              <div className="flex items-center gap-2.5">
+                <img src="/brandmark.svg" alt="INNOVA" className="w-8 h-8 text-ink-100" style={{ filter: 'var(--brandmark-filter, none)' }} />
+                <span className="font-display text-lg font-semibold text-ink-100 tracking-tight">innova</span>
+              </div>
+              <p className="font-mono text-[8px] uppercase tracking-[0.15em] text-ink-500 mt-1 ml-[42px]">
+                VISUAL LANGUAGE
               </p>
             </>
           )}

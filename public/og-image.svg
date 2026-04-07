@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#191919"/>
+  <text x="600" y="280" text-anchor="middle" font-family="Georgia, serif" font-size="72" font-weight="600" fill="#FAF7F3">INNOVA</text>
+  <text x="600" y="340" text-anchor="middle" font-family="Georgia, serif" font-size="28" font-style="italic" fill="#9A958F">Visual Language</text>
+  <text x="600" y="400" text-anchor="middle" font-family="monospace" font-size="12" fill="#6B6862" letter-spacing="0.15em">SPACE · PEOPLE · TECH</text>
+  <circle cx="572" cy="440" r="5" fill="#D4772E"/>
+  <circle cx="600" cy="440" r="5" fill="#2D4272"/>
+  <circle cx="628" cy="440" r="5" fill="#3D6B4F"/>
+</svg>

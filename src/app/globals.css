@@ -79,6 +79,10 @@ body {
 .sidebar-bg { background-color: #F5F2ED; }
 .dark .sidebar-bg { background-color: #141414; }
 
+/* Brandmark: dark by default (for light mode), invert in dark mode */
+:root { --brandmark-filter: none; }
+.dark { --brandmark-filter: invert(1) brightness(2); }
+
 /* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }

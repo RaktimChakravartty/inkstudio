@@ -26,12 +26,15 @@ export default function DashboardPage() {
     <div className="min-h-screen p-8 max-w-[1200px] mx-auto">
       {/* Hero */}
       <div className="mb-16 pt-8">
-        <h1 className="font-display text-[40px] font-semibold text-ink-100 tracking-tight leading-[1.1]">
-          INNOVA Visual Language
-        </h1>
-        <p className="text-ink-400 mt-3 text-[17px] max-w-lg leading-relaxed">
-          Six visual systems. One locked identity.
-        </p>
+        <div className="flex items-center gap-4 mb-4">
+          <img src="/brandmark.svg" alt="INNOVA" className="w-12 h-12" style={{ filter: 'var(--brandmark-filter, none)' }} />
+          <div>
+            <h1 className="font-display text-[36px] font-semibold text-ink-100 tracking-tight leading-[1.1]">
+              Visual Language
+            </h1>
+            <p className="font-display text-[18px] italic text-ink-500">Brand visual system for INNOVA AM Tech</p>
+          </div>
+        </div>
         <div className="flex items-center gap-4 mt-4">
           <div className="flex gap-2">
             {Object.values(VERTICALS).map((v) => (
@@ -41,7 +44,7 @@ export default function DashboardPage() {
               </span>
             ))}
           </div>
-          <span className="font-mono text-[10px] text-ink-600">v3.0 · Built for INNOVA AM Tech</span>
+          <span className="font-mono text-[10px] text-ink-600">INNOVA AM Tech · Visual Language Platform</span>
         </div>
       </div>
 
