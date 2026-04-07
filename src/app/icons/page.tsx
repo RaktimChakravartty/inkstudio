@@ -142,6 +142,36 @@ export default function IconsPage() {
 
         {/* RIGHT */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          {/* Icon Preview Grid */}
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-wider text-ink-400 mb-3">Icon Preview</p>
+            <div className="grid grid-cols-4 gap-3">
+              {[
+                { name: 'Workspace', paths: <><rect x="8" y="14" width="32" height="20" rx="9.5" fill="none" stroke="currentColor" strokeWidth="2"/><line x1="8" y1="28" x2="40" y2="28" stroke="currentColor" strokeWidth="2"/></> },
+                { name: 'Meeting', paths: <><path d="M10 30 A14 14 0 0 1 24 16" fill="none" stroke="currentColor" strokeWidth="2"/><path d="M24 16 A14 14 0 0 1 38 30" fill="none" stroke="currentColor" strokeWidth="2"/><circle cx="16" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth="2"/><circle cx="24" cy="10" r="3" fill="none" stroke="currentColor" strokeWidth="2"/><circle cx="32" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth="2"/></> },
+                { name: 'Phone Booth', paths: <><rect x="14" y="8" width="20" height="32" rx="7.1" fill="none" stroke="currentColor" strokeWidth="2"/><circle cx="24" cy="22" r="4" fill="none" stroke="currentColor" strokeWidth="2"/></> },
+                { name: 'Reception', paths: <><path d="M8 28 A16 16 0 0 1 24 12" fill="none" stroke="currentColor" strokeWidth="2"/><line x1="24" y1="12" x2="40" y2="12" stroke="currentColor" strokeWidth="2"/><circle cx="14" cy="20" r="3.5" fill="none" stroke="currentColor" strokeWidth="2"/><line x1="8" y1="34" x2="40" y2="34" stroke="currentColor" strokeWidth="2"/></> },
+                { name: 'Café', paths: <><path d="M14 16 A10 10 0 0 0 34 16" fill="none" stroke="currentColor" strokeWidth="2"/><line x1="14" y1="16" x2="14" y2="32" stroke="currentColor" strokeWidth="2"/><line x1="34" y1="16" x2="34" y2="32" stroke="currentColor" strokeWidth="2"/><path d="M14 32 A10 10 0 0 0 34 32" fill="none" stroke="currentColor" strokeWidth="2"/><path d="M20 10 Q20 6 24 8 Q28 6 28 10" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.5"/></> },
+                { name: 'Parking', paths: <><rect x="10" y="8" width="28" height="32" rx="9.5" fill="none" stroke="currentColor" strokeWidth="2"/><path d="M18 34 L18 16 L28 16 A7 7 0 0 1 28 30 L18 30" fill="none" stroke="currentColor" strokeWidth="2"/></> },
+                { name: 'Elevator', paths: <><rect x="10" y="8" width="28" height="32" rx="7.1" fill="none" stroke="currentColor" strokeWidth="2"/><path d="M20 20 L24 14 L28 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M20 28 L24 34 L28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></> },
+                { name: 'Restroom', paths: <><circle cx="18" cy="14" r="4" fill="none" stroke="currentColor" strokeWidth="2"/><circle cx="30" cy="14" r="4" fill="none" stroke="currentColor" strokeWidth="2"/><line x1="18" y1="20" x2="18" y2="36" stroke="currentColor" strokeWidth="2"/><line x1="30" y1="20" x2="30" y2="36" stroke="currentColor" strokeWidth="2"/><line x1="24" y1="10" x2="24" y2="38" stroke="currentColor" strokeWidth="1" opacity="0.3"/></> },
+                { name: 'WiFi', paths: <><path d="M12 20 A16 16 0 0 1 36 20" fill="none" stroke="currentColor" strokeWidth="2"/><path d="M16 25 A11 11 0 0 1 32 25" fill="none" stroke="currentColor" strokeWidth="2"/><path d="M20 30 A6 6 0 0 1 28 30" fill="none" stroke="currentColor" strokeWidth="2"/><circle cx="24" cy="34" r="2" fill="currentColor"/></> },
+                { name: 'Print', paths: <><rect x="12" y="18" width="24" height="14" rx="3" fill="none" stroke="currentColor" strokeWidth="2"/><path d="M16 18 L16 10 L32 10 L32 18" fill="none" stroke="currentColor" strokeWidth="2"/><path d="M16 32 L16 38 L32 38 L32 32" fill="none" stroke="currentColor" strokeWidth="2"/><circle cx="32" cy="24" r="1.5" fill="currentColor"/></> },
+                { name: 'Exit', paths: <><rect x="10" y="10" width="20" height="28" rx="2" fill="none" stroke="currentColor" strokeWidth="2"/><path d="M30 18 L38 24 L30 30" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><line x1="22" y1="24" x2="38" y2="24" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></> },
+                { name: 'Helpdesk', paths: <><path d="M10 30 A14 14 0 0 1 38 30" fill="none" stroke="currentColor" strokeWidth="2"/><circle cx="24" cy="16" r="6" fill="none" stroke="currentColor" strokeWidth="2"/><circle cx="34" cy="10" r="2.5" fill="currentColor" opacity="0.4"/></> },
+              ].map((ic) => (
+                <div key={ic.name} className="flex flex-col items-center p-2 rounded-lg bg-ink-900 border border-ink-700 hover:border-ink-600 transition">
+                  <svg viewBox="0 0 48 48" width={parseInt(size)} height={parseInt(size)} className="text-ink-100 mb-1.5">
+                    {render === 'filled' ? (
+                      <g style={{ fill: 'currentColor', stroke: 'none' }}>{ic.paths}</g>
+                    ) : ic.paths}
+                  </svg>
+                  <span className="font-mono text-[8px] text-ink-500">{ic.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Construction Spec */}
           <div className="bg-ink-900 border border-ink-700 rounded-xl p-5">
             <div className="flex items-center justify-between mb-3">
