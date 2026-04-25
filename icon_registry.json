@@ -1,0 +1,138 @@
+{
+  "social": {
+    "label": "Social & Users",
+    "icons": {
+      "2": "user-group", "3": "chat-bubble", "17": "comment", "18": "envelope-check",
+      "24": "user-circle", "25": "user-settings", "26": "user-card", "27": "user-search",
+      "210": "heart", "211": "heart-bag", "221": "star-badge"
+    }
+  },
+  "business": {
+    "label": "Business & Data",
+    "icons": {
+      "10": "star-outline", "11": "gear", "12": "star-fill", "13": "calendar",
+      "14": "globe", "15": "calculator", "22": "monitor", "23": "share-network",
+      "28": "clipboard", "36": "briefcase", "37": "grid-layout", "38": "trending-up",
+      "39": "trending-down", "40": "area-chart", "41": "line-chart", "42": "bar-chart-h",
+      "43": "scatter-dots", "44": "wave-chart", "45": "pulse", "46": "trending-zigzag",
+      "47": "bar-chart-v", "48": "bar-chart-group", "49": "pie-chart", "50": "donut-chart",
+      "245": "org-chart", "246": "check-circle", "247": "minus-circle", "248": "plus-circle"
+    }
+  },
+  "media": {
+    "label": "Media & Sound",
+    "icons": {
+      "4": "play-circle", "51": "play-button", "52": "pause-button", "53": "play-fill",
+      "54": "pause-fill", "55": "forward-fill", "56": "volume-low", "57": "volume-high",
+      "58": "equalizer", "59": "music-note-single", "60": "headphones", "61": "music-note-double",
+      "62": "disc-vinyl", "63": "disc-cd", "64": "music-cloud", "65": "music-note-alt",
+      "66": "music-playlist", "67": "microphone", "68": "mic-off", "69": "speaker",
+      "70": "speaker-mute", "71": "speaker-x", "72": "volume-max", "73": "megaphone",
+      "74": "megaphone-alt", "75": "bell-notification", "76": "bell-ring",
+      "139": "headphones-alt", "140": "music-note-beamed", "141": "music-wave", "142": "microphone-stand"
+    }
+  },
+  "navigation": {
+    "label": "Arrows & Navigation",
+    "icons": {
+      "5": "sparkle", "6": "bell", "7": "flag", "19": "home", "20": "wifi", "21": "download",
+      "113": "arrow-up-right", "114": "arrow-right", "115": "arrow-down", "116": "arrow-up",
+      "117": "arrow-up-alt", "118": "arrow-down-box", "119": "arrow-down-alt", "120": "arrow-down-left",
+      "121": "arrows-zigzag", "155": "sort-down", "156": "sort-up",
+      "253": "chevron-double-up", "254": "chevron-double-down", "255": "chevron-left",
+      "256": "chevron-double-left", "257": "cursor", "258": "arrow-left-long",
+      "259": "arrow-bend-left", "260": "arrow-right-alt", "261": "arrow-circle-right",
+      "262": "sun-rays", "263": "arrows-scatter", "264": "arrows-burst", "265": "arrow-diagonal",
+      "266": "arrow-up-right-box", "267": "arrow-up-box", "268": "arrow-down-box-alt",
+      "269": "arrow-down-thin", "270": "arrow-down-double", "271": "arrow-right-thin",
+      "272": "arrow-left-long-alt"
+    }
+  },
+  "interface": {
+    "label": "Interface & Controls",
+    "icons": {
+      "16": "grid-controls", "29": "list-columns", "30": "list-rows", "31": "document-fold",
+      "32": "check", "33": "x-close", "34": "minus", "35": "plus",
+      "107": "search", "108": "usb", "109": "three-dots", "110": "zoom-in",
+      "169": "battery-half", "170": "battery-full", "171": "battery-charging", "172": "battery-empty",
+      "173": "signal-bars", "174": "bracket-left", "175": "bracket-right",
+      "177": "link-chain", "178": "toggle-off", "179": "refresh-arrow",
+      "180": "maximize", "181": "minimize", "182": "crop-frame",
+      "183": "layers-stack", "184": "layers-alt", "239": "warning-triangle",
+      "240": "x-mark", "241": "minus-alt", "277": "search-alt",
+      "285": "settings-gear-alt", "286": "gear-cog-alt", "296": "hamburger-menu",
+      "297": "line-break", "298": "slash", "299": "circle-slash",
+      "300": "x-circle", "301": "plus-circle-alt"
+    }
+  },
+  "weather": {
+    "label": "Weather & Nature",
+    "icons": {
+      "122": "cloud", "123": "cloud-alt", "124": "cloud-double", "125": "sun",
+      "126": "lightning-bolt", "127": "chain-link", "128": "diamond-gem", "129": "celsius",
+      "130": "thermometer", "131": "fahrenheit", "132": "compass-north", "133": "compass-south",
+      "134": "compass-east", "135": "compass-ne", "136": "compass-electro",
+      "137": "moon-crescent", "138": "cloud-moon", "197": "cloud-sun", "198": "cloud-rain",
+      "199": "cloud-snow", "200": "cloud-wind", "201": "raindrop", "202": "moon-half",
+      "203": "sunrise", "204": "umbrella", "205": "moon-cloud", "206": "rainbow",
+      "207": "serve-dome", "208": "bell-desk", "209": "bird-tweet"
+    }
+  },
+  "files": {
+    "label": "Files & Documents",
+    "icons": {
+      "8": "envelope-open", "9": "document", "77": "layout-grid-4", "78": "layout-columns-3",
+      "79": "layout-sidebar", "80": "layout-rows", "81": "layout-full", "82": "layout-split",
+      "83": "layout-asymmetric", "84": "layout-footer", "85": "copy-duplicate", "86": "stack-layers",
+      "87": "align-left", "88": "align-center", "89": "align-right", "90": "align-justify",
+      "91": "candlestick", "92": "play-skip", "93": "rewind", "94": "fast-forward",
+      "95": "skip-back", "96": "skip-forward", "97": "playlist", "98": "envelope-alt",
+      "99": "monitor-alt", "100": "desktop-share", "101": "trending-break", "102": "scissors",
+      "103": "paint-roller", "104": "refresh", "105": "rotate-cw", "106": "rotate-ccw",
+      "227": "envelope-plain", "228": "envelope-open-alt", "229": "envelope-circle",
+      "230": "envelope-x", "231": "envelope-heart", "232": "envelope-lock",
+      "233": "envelope-check-alt", "234": "code-brackets", "280": "text-format",
+      "281": "table-grid", "282": "list-format", "283": "list-lines", "284": "list-bullet",
+      "287": "file-plus", "288": "file-copy", "289": "file-text", "290": "folder-outline",
+      "291": "folder-open-alt", "292": "home-alt", "293": "star-outline-alt",
+      "294": "menu-lines", "295": "upload-arrow"
+    }
+  },
+  "phone": {
+    "label": "Phone & Mobile",
+    "icons": {
+      "148": "phone-vibrate", "149": "phone-incoming", "150": "phone-outgoing",
+      "152": "bell-alert", "153": "bell-ring-alt", "154": "bell-slash",
+      "213": "download-arrow", "214": "download-cloud", "215": "download-box",
+      "216": "upload-cloud", "217": "phone-portrait", "218": "phone-landscape",
+      "219": "phone-rotate", "220": "phone-tilt", "224": "arrow-left-phone",
+      "225": "arrow-right-phone", "226": "move-arrows"
+    }
+  },
+  "shopping": {
+    "label": "Shopping & Commerce",
+    "icons": {
+      "236": "code-angle", "237": "qr-code", "238": "sitemap", "242": "lock-open",
+      "243": "timer-clock", "244": "x-circle-alt", "249": "cart-add", "250": "cart-remove",
+      "251": "cart-check", "252": "cart-x", "273": "pen-tool", "274": "brush-paint",
+      "275": "ruler", "276": "rocket-launch", "278": "magnifier", "279": "tag-price"
+    }
+  },
+  "design": {
+    "label": "Design & Creative",
+    "icons": {
+      "111": "box-3d", "112": "box-open", "143": "bell-small", "144": "mic-podcast",
+      "145": "speaker-wireless", "146": "speaker-fill", "147": "speaker-mute-fill",
+      "157": "sort-vertical", "158": "sort-horizontal", "159": "layout-card",
+      "160": "layout-tiles", "161": "align-v-top", "162": "align-v-center",
+      "163": "align-v-bottom", "164": "distribute-h", "165": "distribute-v",
+      "166": "candlestick-alt", "167": "flip-horizontal", "168": "flip-vertical",
+      "176": "monitor-play", "185": "paste", "186": "selection",
+      "187": "shape-square", "188": "shape-circle", "189": "node-editor",
+      "190": "pen-nib", "191": "fork-knife", "192": "divider-line",
+      "193": "spacing-increase", "194": "spacing-decrease", "195": "transform-add",
+      "196": "transform-remove", "212": "tag-label", "222": "star-sparkle",
+      "223": "search-zoom", "235": "code-html"
+    }
+  }
+}
