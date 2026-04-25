@@ -417,7 +417,7 @@ export default function GeneratorPage() {
                       )}
                       {overLimit && (
                         <span className="text-red-400 font-medium">
-                          — over limit, reduce detail or shorten subject
+                          (over limit)
                         </span>
                       )}
                     </>

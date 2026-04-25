@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Search, Download, Copy, Check } from 'lucide-react';
 import { ModuleHeader } from '@/components/shared/ModuleHeader';
 import { useToast } from '@/components/shared/Toast';
+import { useTheme } from '@/lib/theme';
 import { ICONS, ICON_CATEGORIES } from '@/data/icons';
 import type { IconEntry } from '@/data/icons';
 
@@ -11,7 +12,7 @@ type VerticalColour = 'neutral' | 'space' | 'people' | 'tech';
 type IconSize = 32 | 48 | 64 | 128;
 
 const VERTICAL_COLOURS: Record<VerticalColour, string> = {
-  neutral: '#1A1A1A',
+  neutral: '#191919',
   space: '#D4772E',
   people: '#2D4272',
   tech: '#3D6B4F',
@@ -47,10 +48,10 @@ function IconCard({ icon, size, colour, onCopy, onDownload }: {
     <div
       className="relative flex flex-col items-center p-4 border rounded-xl transition-all duration-150 cursor-default"
       style={{
-        borderColor: '#D4D0CA',
-        backgroundColor: hover ? '#FAF7F3' : 'transparent',
+        borderColor: 'var(--border-default)',
+        backgroundColor: hover ? 'var(--bg-card)' : 'transparent',
         transform: hover ? 'scale(1.02)' : 'scale(1)',
-        height: size + 72,
+        height: 140,
       }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -126,7 +127,8 @@ export default function IconsPage() {
     }
   }, [showToast]);
 
-  const colour = VERTICAL_COLOURS[verticalColour];
+  const { theme } = useTheme();
+  const colour = verticalColour === 'neutral' && theme === 'dark' ? '#FAF7F3' : VERTICAL_COLOURS[verticalColour];
 
   return (
     <div className="min-h-screen">

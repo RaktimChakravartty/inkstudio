@@ -37,7 +37,7 @@ export default function LibraryPage() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-2xl font-serif font-bold text-ink-50">Reference Library</h1>
-          <p className="text-ink-500 text-sm mt-0.5">{approved.length} approved illustration{approved.length !== 1 ? 's' : ''} — the brand standard</p>
+          <p className="text-ink-500 text-sm mt-0.5">{approved.length} approved illustration{approved.length !== 1 ? 's' : ''} , the brand standard</p>
         </div>
         <div className="flex items-center gap-2">
           <div className="flex border border-ink-700 rounded-lg overflow-hidden">

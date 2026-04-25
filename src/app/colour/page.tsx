@@ -79,7 +79,7 @@ export default function ColourPage() {
               <div className="flex rounded-lg overflow-hidden border border-ink-700">
                 {v.scale.map((s) => (
                   <button key={s.s} onClick={() => copyHex(s.h)} className="flex-1 h-[72px] flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity" style={{ backgroundColor: s.h }}>
-                    <span className={`font-mono text-[9px] ${isLight(s.h) ? 'text-[#1A1A1A]' : 'text-white'}`}>{s.h}</span>
+                    <span className={`font-mono text-[9px] ${isLight(s.h) ? 'text-[#191919]' : 'text-white'}`}>{s.h}</span>
                   </button>
                 ))}
               </div>
@@ -93,8 +93,8 @@ export default function ColourPage() {
           <div className="flex rounded-lg overflow-hidden border border-ink-700">
             {NEUTRALS.map((n) => (
               <button key={n.name} onClick={() => copyHex(n.hex)} className="flex-1 h-[72px] flex flex-col items-center justify-center cursor-pointer hover:opacity-80 transition-opacity" style={{ backgroundColor: n.hex }}>
-                <span className={`font-mono text-[9px] ${isLight(n.hex) ? 'text-[#1A1A1A]' : 'text-white'}`}>{n.name}</span>
-                <span className={`font-mono text-[8px] mt-0.5 ${isLight(n.hex) ? 'text-[#1A1A1A]/60' : 'text-white/60'}`}>{n.hex}</span>
+                <span className={`font-mono text-[9px] ${isLight(n.hex) ? 'text-[#191919]' : 'text-white'}`}>{n.name}</span>
+                <span className={`font-mono text-[8px] mt-0.5 ${isLight(n.hex) ? 'text-[#191919]/60' : 'text-white/60'}`}>{n.hex}</span>
               </button>
             ))}
           </div>

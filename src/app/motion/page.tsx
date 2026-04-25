@@ -129,7 +129,7 @@ export default function MotionPage() {
       {/* Philosophy */}
       <div className="mb-10">
         <blockquote className="font-display text-xl text-ink-200 italic leading-relaxed border-l-2 border-cinnamon pl-6">
-          Motion is subtle. The brand moves with the confidence of someone who doesn&apos;t need to grab attention. The i-dot — the circle from the brandmark — is the origin point for all motion.
+          Motion is subtle. The brand moves with the confidence of someone who doesn&apos;t need to grab attention. The i-dot (the circle from the brandmark) is the origin point for all motion.
         </blockquote>
       </div>
 

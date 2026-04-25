@@ -15,7 +15,7 @@ const ICON_MAP: Record<string, React.ElementType> = {
 
 const MODULE_COLOURS: Record<string, string> = {
   illustration: '#D4772E', photography: '#D4772E', icons: '#2D4272',
-  layout: '#3D6B4F', motion: '#1A1A1A', patterns: '#9A958F',
+  layout: '#3D6B4F', motion: '#191919', patterns: '#9A958F',
 };
 
 function NavCard({ href, icon: Icon, label, desc }: { href: string; icon: React.ElementType; label: string; desc: string }) {

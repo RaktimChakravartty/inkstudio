@@ -105,6 +105,7 @@ body { font-family: var(--font-body); background: var(--bg-primary); color: var(
 
 .sidebar-bg { background-color: var(--color-sidebar-bg); }
 
+* { scrollbar-width: thin; scrollbar-color: var(--ink-600) transparent; }
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--ink-600); border-radius: 3px; }

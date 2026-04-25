@@ -18,10 +18,10 @@ export default function TypographyPage() {
         {/* 01 Wordmark */}
         <section className="border border-ink-700 rounded-lg p-8">
           <div className="flex items-center gap-3 mb-4">
-            <span className="font-mono text-[10px] text-ink-500">01 — WORDMARK</span>
+            <span className="font-mono text-[10px] text-ink-500">01 · WORDMARK</span>
             <span className="px-2 py-0.5 rounded text-[9px] font-mono bg-red-500/10 text-red-400 border border-red-500/20">Licensed</span>
           </div>
-          <p className="font-body text-sm italic text-ink-400 mb-6">PP Neue Machina Inktrap UltraBold — Pangram Pangram Foundry</p>
+          <p className="font-body text-sm italic text-ink-400 mb-6">PP Neue Machina Inktrap UltraBold · Pangram Pangram Foundry</p>
           <div className="mb-4">
             <Wordmark height={56} className="text-ink-100" />
           </div>
@@ -31,10 +31,10 @@ export default function TypographyPage() {
         {/* 02 Display */}
         <section className="border border-ink-700 rounded-lg p-8">
           <div className="flex items-center gap-3 mb-4">
-            <span className="font-mono text-[10px] text-ink-500">02 — DISPLAY & HEADLINES</span>
+            <span className="font-mono text-[10px] text-ink-500">02 · DISPLAY & HEADLINES</span>
             <span className="px-2 py-0.5 rounded text-[9px] font-mono bg-hunter/10 text-hunter border border-hunter/20">Open Source</span>
           </div>
-          <p className="font-body text-sm italic text-ink-400 mb-6">Fraunces — Google Fonts</p>
+          <p className="font-body text-sm italic text-ink-400 mb-6">Fraunces · Google Fonts</p>
           <p className="font-display text-[48px] font-semibold text-ink-100 leading-tight mb-2">Where work comes together</p>
           <p className="font-display text-[36px] italic text-ink-300 leading-tight mb-8">Everything your work needs.</p>
           <div className="flex gap-8 mb-6">
@@ -53,10 +53,10 @@ export default function TypographyPage() {
         {/* 03 Body */}
         <section className="border border-ink-700 rounded-lg p-8">
           <div className="flex items-center gap-3 mb-4">
-            <span className="font-mono text-[10px] text-ink-500">03 — BODY & INTERFACE</span>
+            <span className="font-mono text-[10px] text-ink-500">03 · BODY & INTERFACE</span>
             <span className="px-2 py-0.5 rounded text-[9px] font-mono bg-hunter/10 text-hunter border border-hunter/20">Open Source</span>
           </div>
-          <p className="font-body text-sm italic text-ink-400 mb-6">DM Sans — Google Fonts</p>
+          <p className="font-body text-sm italic text-ink-400 mb-6">DM Sans · Google Fonts</p>
           <p className="font-body text-[16px] text-ink-200 leading-[1.65] max-w-2xl mb-8">
             INNOVA AM Tech is one of India&apos;s pioneering enterprise workplace solutions companies, operating at the intersection of managed office spaces, IT staffing, and smart workplace technology. Founded in 1996 in Noida, the company has grown into a comprehensive provider serving enterprise clients across the National Capital Region.
           </p>
@@ -76,12 +76,12 @@ export default function TypographyPage() {
         {/* 04 Functional */}
         <section className="border border-ink-700 rounded-lg p-8">
           <div className="flex items-center gap-3 mb-4">
-            <span className="font-mono text-[10px] text-ink-500">04 — FUNCTIONAL & DATA</span>
+            <span className="font-mono text-[10px] text-ink-500">04 · FUNCTIONAL & DATA</span>
             <span className="px-2 py-0.5 rounded text-[9px] font-mono bg-hunter/10 text-hunter border border-hunter/20">Open Source</span>
           </div>
-          <p className="font-body text-sm italic text-ink-400 mb-6">Space Mono — Google Fonts</p>
+          <p className="font-body text-sm italic text-ink-400 mb-6">Space Mono · Google Fonts</p>
           <div className="font-mono text-[12px] text-ink-300 space-y-1 mb-8">
-            <p>EST. 1996 — NOIDA NCR</p>
+            <p>EST. 1996 · NOIDA NCR</p>
             <p>SPACE · PEOPLE · TECH</p>
             <p>D-108, SECTOR 63, NOIDA 201301</p>
             <p>CIN: U74990DL2022PTC394519</p>

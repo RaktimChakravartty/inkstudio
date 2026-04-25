@@ -280,14 +280,14 @@ export default function PhotographyPage() {
             ))}
             <span className={`ml-auto text-[10px] ${overLimit ? 'text-red-500 font-semibold' : 'text-ink-500'}`}>
               {displayPrompt.length.toLocaleString()} chars{charLimit ? ` / ${charLimit.toLocaleString()} max` : ''}
-              {overLimit && ' — over limit'}
+              {overLimit && ' (over limit)'}
             </span>
           </div>
 
           {/* Lightroom Preset */}
           <div className="bg-ink-900 border border-ink-700 rounded-xl overflow-hidden">
             <button onClick={() => setShowLightroom(!showLightroom)} className="w-full flex items-center justify-between px-5 py-3 cursor-pointer hover:bg-ink-800/50 transition">
-              <span className="font-mono text-[10px] uppercase tracking-wider text-ink-400">Post-Generation Grade — Lightroom / Camera Raw</span>
+              <span className="font-mono text-[10px] uppercase tracking-wider text-ink-400">Post-Generation Grade: Lightroom and Camera Raw</span>
               {showLightroom ? <ChevronDown size={14} className="text-ink-500" /> : <ChevronRight size={14} className="text-ink-500" />}
             </button>
             {showLightroom && (
@@ -311,7 +311,7 @@ export default function PhotographyPage() {
           {/* Quality Checklist */}
           <div className="bg-ink-900 border border-ink-700 rounded-xl overflow-hidden">
             <button onClick={() => setShowChecklist(!showChecklist)} className="w-full flex items-center justify-between px-5 py-3 cursor-pointer hover:bg-ink-800/50 transition">
-              <span className="font-mono text-[10px] uppercase tracking-wider text-ink-400">The Working Notebook — Quality Gate</span>
+              <span className="font-mono text-[10px] uppercase tracking-wider text-ink-400">The Working Notebook Quality Gate</span>
               {showChecklist ? <ChevronDown size={14} className="text-ink-500" /> : <ChevronRight size={14} className="text-ink-500" />}
             </button>
             {showChecklist && (

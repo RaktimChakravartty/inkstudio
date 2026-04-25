@@ -95,9 +95,9 @@ const PATTERN_OPTIONS: { id: PatternType; label: string; desc: string }[] = [
   { id: 'scatter', label: 'Scatter Field', desc: 'Circles at varying scales and positions' },
   { id: 'grid_mesh', label: 'Grid Mesh', desc: 'Repeating cross/plus pattern' },
   { id: 'arc_wave', label: 'Arc Wave', desc: 'Nested quarter-arcs' },
-  { id: 'dot_grid', label: 'Dot Grid', desc: 'Uniform dot grid — engineering paper feel' },
+  { id: 'dot_grid', label: 'Dot Grid', desc: 'Uniform dot grid, engineering paper feel' },
   { id: 'concentric', label: 'Concentric Squircles', desc: 'Nested rounded squares from brandmark geometry' },
-  { id: 'line_field', label: 'Line Field', desc: 'Diagonal parallel lines — technical hatching' },
+  { id: 'line_field', label: 'Line Field', desc: 'Diagonal parallel lines, technical hatching' },
   { id: 'noise', label: 'Noise Texture', desc: 'Organic grain/stipple for print overlay' },
 ];
 
@@ -252,7 +252,7 @@ export default function PatternsPage() {
           {[
             { name: 'Parallel Line Hatching', rule: 'For mid-tones on specific elements. Suggests volume. Used on clothing or shadowed surfaces.',
               svg: <svg viewBox="0 0 80 80" className="w-20 h-20 rounded border border-ink-700" style={{ background: 'white' }}>{Array.from({ length: 20 }, (_, i) => <line key={i} x1={i * 5} y1={0} x2={i * 5 + 40} y2={80} stroke="currentColor" strokeWidth="0.8" opacity="0.4" />)}</svg> },
-            { name: 'Halftone Dot Pattern', rule: 'Editorial print reference. Adds visual weight. Used very rarely — one element per illustration maximum.',
+            { name: 'Halftone Dot Pattern', rule: 'Editorial print reference. Adds visual weight. Used very rarely. One element per illustration maximum.',
               svg: <svg viewBox="0 0 80 80" className="w-20 h-20 rounded border border-ink-700" style={{ background: 'white' }}>{Array.from({ length: 64 }, (_, i) => { const x = (i % 8) * 10 + 5; const y = Math.floor(i / 8) * 10 + 5; const r = 0.5 + (1 - y / 80) * 3; return <circle key={i} cx={x} cy={y} r={r} fill="currentColor" opacity="0.5" />; })}</svg> },
             { name: 'Pencil/Charcoal Grain', rule: 'Suggests the physical drawing tool. Appears naturally in brush pen strokes.',
               svg: <svg viewBox="0 0 80 80" className="w-20 h-20 rounded border border-ink-700" style={{ background: 'white' }}>{Array.from({ length: 200 }, (_, i) => { const r = seededRandom(i + 100); return <circle key={i} cx={r() * 80} cy={r() * 80} r={0.3 + r() * 1.2} fill="currentColor" opacity={0.05 + r() * 0.15} />; })}</svg> },

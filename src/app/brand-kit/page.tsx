@@ -208,7 +208,7 @@ export default function BrandKitPage() {
       <Modal open={!!editPalette} onClose={() => { setEditPalette(null); setIsNew(false); }} title={isNew ? 'New Palette' : 'Edit Palette'} className="max-w-lg">
         {editPalette && (
           <div className="space-y-5">
-            <Input label="Palette Name" value={editPalette.name} onChange={(e) => setEditPalette({ ...editPalette, name: e.target.value })} placeholder="e.g., The Meridian" />
+            <Input label="Palette Name" value={editPalette.name} onChange={(e) => setEditPalette({ ...editPalette, name: e.target.value })} placeholder="e.g., Campaign Spring 2026" />
             <div className="grid grid-cols-2 gap-4">
               <ColourPicker label="Core Dark" value={editPalette.core_dark} onChange={(v) => setEditPalette({ ...editPalette, core_dark: v })} />
               <ColourPicker label="Core Light" value={editPalette.core_light} onChange={(v) => setEditPalette({ ...editPalette, core_light: v })} />
