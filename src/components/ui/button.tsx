@@ -1,7 +1,7 @@
 import { cn } from '@/lib/cn';
 import { type ButtonHTMLAttributes, forwardRef } from 'react';
 
-type Variant = 'primary' | 'secondary' | 'ghost' | 'danger';
+type Variant = 'primary' | 'secondary' | 'ghost' | 'danger' | 'subtle';
 type Size = 'sm' | 'md' | 'lg';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -10,10 +10,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantStyles: Record<Variant, string> = {
-  primary: 'bg-amber text-white hover:bg-amber/90 font-semibold shadow-sm',
+  primary: 'bg-cinnamon text-white hover:bg-cinnamon/90 font-semibold shadow-sm',
   secondary: 'bg-ink-800 text-ink-200 hover:bg-ink-700 border border-ink-700',
   ghost: 'text-ink-400 hover:text-ink-200 hover:bg-ink-800/60',
   danger: 'bg-red-600/10 text-red-500 hover:bg-red-600/20 border border-red-600/20',
+  subtle: 'bg-transparent text-ink-400 hover:text-ink-200 border border-ink-700 hover:border-ink-500',
 };
 
 const sizeStyles: Record<Size, string> = {
@@ -28,7 +29,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       ref={ref}
       className={cn(
         'inline-flex items-center justify-center rounded-lg transition-all duration-150 cursor-pointer',
-        'disabled:opacity-50 disabled:cursor-not-allowed',
+        'disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]',
         variantStyles[variant],
         sizeStyles[size],
         className

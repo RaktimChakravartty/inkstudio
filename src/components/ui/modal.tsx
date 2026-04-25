@@ -36,11 +36,11 @@ export function Modal({ open, onClose, title, children, className }: ModalProps)
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/30 backdrop-blur-sm"
       onClick={(e) => e.target === overlayRef.current && onClose()}
     >
       <div className={cn(
-        'bg-ink-900 border border-ink-700 rounded-xl shadow-2xl w-full max-w-lg mx-4 max-h-[90vh] flex flex-col',
+        'bg-ink-900 border border-ink-700 rounded-xl shadow-2xl w-full max-w-lg mx-4 max-h-[90vh] flex flex-col animate-scale-in',
         className
       )}>
         <div className="flex items-center justify-between px-6 py-4 border-b border-ink-700 flex-shrink-0">
