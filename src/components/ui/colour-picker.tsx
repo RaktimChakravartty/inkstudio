@@ -43,7 +43,7 @@ export function ColourPicker({ value, onChange, label, className }: ColourPicker
           type="text"
           value={hex}
           onChange={(e) => handleHexChange(e.target.value)}
-          className="w-24 bg-ink-800 border border-ink-700 rounded-lg px-2 py-1.5 text-xs text-ink-100 font-mono focus:outline-none focus:ring-1 focus:ring-amber/50"
+          className="w-24 bg-ink-800 border border-ink-700 rounded-lg px-2 py-1.5 text-xs text-ink-100 font-mono focus:outline-none focus:ring-1 focus:ring-cinnamon/50"
           placeholder="#000000"
         />
       </div>
