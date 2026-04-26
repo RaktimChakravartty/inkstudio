@@ -64,7 +64,7 @@ export default function DashboardPage() {
                   key={mod.id}
                   href={mod.route}
                   className={`group flex items-center gap-4 px-5 py-4 card-hover animate-fade-in ${i < MODULES.length - 1 ? 'border-b border-ink-700' : ''}`}
-                  style={{ borderLeft: `2px solid ${colour}`, animationDelay: `${(i + 1) * 60}ms` }}
+                  style={{ animationDelay: `${(i + 1) * 60}ms` }}
                 >
                   <Icon size={20} style={{ color: colour }} className="flex-shrink-0" />
                   <div className="flex-1 min-w-0">
