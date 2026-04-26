@@ -25,21 +25,22 @@ interface NavItem {
   label: string;
   icon: string;
   shortcut?: string;
+  accent?: string;
 }
 
 const BRAND_ITEMS: NavItem[] = [
-  { href: '/guidelines', label: 'Guidelines', icon: 'book-open', shortcut: undefined },
-  { href: '/colour', label: 'Colour System', icon: 'palette', shortcut: undefined },
-  { href: '/typography', label: 'Typography', icon: 'type', shortcut: undefined },
+  { href: '/guidelines', label: 'Guidelines', icon: 'book-open' },
+  { href: '/colour', label: 'Colour System', icon: 'palette' },
+  { href: '/typography', label: 'Typography', icon: 'type' },
 ];
 
 const MODULE_ITEMS: NavItem[] = [
-  { href: '/illustration', label: 'Illustration', icon: 'pen-tool', shortcut: '1' },
-  { href: '/photography', label: 'Photography', icon: 'aperture', shortcut: '2' },
-  { href: '/icons', label: 'Icons', icon: 'grid-3x3', shortcut: '3' },
-  { href: '/layout-grid', label: 'Layout & Grid', icon: 'layout', shortcut: '4' },
-  { href: '/motion', label: 'Motion', icon: 'play-circle', shortcut: '5' },
-  { href: '/patterns', label: 'Patterns & Textures', icon: 'hexagon', shortcut: '6' },
+  { href: '/illustration', label: 'Illustration', icon: 'pen-tool', shortcut: '1', accent: '#D4772E' },
+  { href: '/photography', label: 'Photography', icon: 'aperture', shortcut: '2', accent: '#D4772E' },
+  { href: '/icons', label: 'Icons', icon: 'grid-3x3', shortcut: '3', accent: '#2D4272' },
+  { href: '/layout-grid', label: 'Layout & Grid', icon: 'layout', shortcut: '4', accent: '#3D6B4F' },
+  { href: '/motion', label: 'Motion', icon: 'play-circle', shortcut: '5', accent: '#3D6B4F' },
+  { href: '/patterns', label: 'Patterns & Textures', icon: 'hexagon', shortcut: '6', accent: '#3D6B4F' },
 ];
 
 const LIBRARY_ITEMS: NavItem[] = [
@@ -61,24 +62,29 @@ function NavGroup({ label, items, pathname, collapsed }: { label: string; items:
   return (
     <div className="mb-4">
       {!collapsed && (
-        <p className="px-3 mb-1.5 text-[9px] font-mono uppercase tracking-[0.15em] text-ink-500">{label}</p>
+        <p className="px-3 mb-1.5 text-[9px] font-mono uppercase tracking-[0.15em] text-ink-500 flex items-center gap-1.5">
+          <span className="w-1 h-1 rounded-full bg-cinnamon/50" />
+          {label}
+        </p>
       )}
       <div className="space-y-0.5">
-        {items.map(({ href, label, icon, shortcut }) => {
+        {items.map(({ href, label, icon, shortcut, accent }) => {
           const Icon = ICON_MAP[icon] || Home;
           const isActive = href === '/' ? pathname === '/' : pathname.startsWith(href);
+          const activeAccent = accent || '#D4772E';
           return (
             <Link
               key={href}
               href={href}
               title={collapsed ? label : undefined}
               className={cn(
-                'flex items-center gap-2.5 rounded-lg transition-all duration-100',
+                'flex items-center gap-2.5 rounded-lg transition-all duration-150',
                 collapsed ? 'justify-center px-2 py-2.5' : 'px-3 py-2',
                 isActive
                   ? 'bg-ink-800 text-ink-50 font-medium'
-                  : 'text-ink-400 hover:text-ink-200 hover:bg-ink-800/50'
+                  : 'text-ink-400 hover:text-ink-200 hover:bg-ink-800/40'
               )}
+              style={isActive && !collapsed ? { borderLeft: `2px solid ${activeAccent}`, paddingLeft: '10px' } : undefined}
             >
               <Icon size={collapsed ? 18 : 15} strokeWidth={isActive ? 2 : 1.5} />
               {!collapsed && (
@@ -119,8 +125,7 @@ export function Sidebar() {
 
   const content = (
     <>
-      {/* Logo */}
-      <div className={cn('border-b border-ink-700', collapsed ? 'px-2 py-4' : 'px-5 py-5')}>
+      <div className={cn(collapsed ? 'px-2 py-4' : 'px-5 py-5')}>
         <Link href="/" className="block">
           {collapsed ? (
             <Brandmark size={28} className="mx-auto text-ink-100" />
@@ -134,29 +139,29 @@ export function Sidebar() {
           )}
         </Link>
       </div>
+      <div className="h-px bg-gradient-to-r from-ink-700/50 via-ink-700/30 to-transparent mx-3" />
 
-      {/* Nav groups */}
       <nav className="flex-1 py-3 px-2 overflow-y-auto">
-        {!collapsed && (
+        {!collapsed ? (
           <Link
             href="/"
             className={cn(
-              'flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all duration-100 mb-3',
+              'flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all duration-150 mb-3',
               pathname === '/'
                 ? 'bg-ink-800 text-ink-50 font-medium'
-                : 'text-ink-400 hover:text-ink-200 hover:bg-ink-800/50'
+                : 'text-ink-400 hover:text-ink-200 hover:bg-ink-800/40'
             )}
+            style={pathname === '/' ? { borderLeft: '2px solid #D4772E', paddingLeft: '10px' } : undefined}
           >
             <Home size={15} strokeWidth={pathname === '/' ? 2 : 1.5} />
             <span className="text-[13px] flex-1">Dashboard</span>
             <kbd className="text-[9px] text-ink-500 font-mono">D</kbd>
           </Link>
-        )}
-        {collapsed && (
+        ) : (
           <div className="mb-3">
             <Link href="/" title="Dashboard" className={cn(
               'flex justify-center px-2 py-2.5 rounded-lg transition-all',
-              pathname === '/' ? 'bg-ink-800 text-ink-50' : 'text-ink-400 hover:text-ink-200 hover:bg-ink-800/50'
+              pathname === '/' ? 'bg-ink-800 text-ink-50' : 'text-ink-400 hover:text-ink-200 hover:bg-ink-800/40'
             )}>
               <Home size={18} />
             </Link>
@@ -168,22 +173,32 @@ export function Sidebar() {
         <NavGroup label="System" items={SYSTEM_ITEMS} pathname={pathname} collapsed={collapsed} />
       </nav>
 
-      {/* Footer */}
       <div className="px-2 py-3 border-t border-ink-700 space-y-1">
-        <button
-          onClick={toggleTheme}
-          className={cn(
-            'w-full flex items-center gap-2.5 rounded-lg text-[13px] text-ink-400 hover:text-ink-200 hover:bg-ink-800/50 transition cursor-pointer',
-            collapsed ? 'justify-center px-2 py-2.5' : 'px-3 py-2'
-          )}
-        >
-          {theme === 'light' ? <Moon size={15} /> : <Sun size={15} />}
-          {!collapsed && (theme === 'light' ? 'Dark Mode' : 'Light Mode')}
-        </button>
+        {!collapsed ? (
+          <button
+            onClick={toggleTheme}
+            className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-[13px] text-ink-400 hover:text-ink-200 hover:bg-ink-800/40 transition cursor-pointer"
+          >
+            <span className="flex items-center gap-2">
+              {theme === 'light' ? <Moon size={14} /> : <Sun size={14} />}
+              {theme === 'light' ? 'Dark' : 'Light'}
+            </span>
+            <div className="relative w-8 h-[18px] rounded-full bg-ink-700 transition-colors">
+              <div className={cn(
+                'absolute top-[2px] w-[14px] h-[14px] rounded-full bg-ink-300 transition-all duration-200',
+                theme === 'dark' ? 'left-[16px]' : 'left-[2px]'
+              )} />
+            </div>
+          </button>
+        ) : (
+          <button onClick={toggleTheme} className="w-full flex justify-center px-2 py-2.5 rounded-lg text-ink-400 hover:text-ink-200 hover:bg-ink-800/40 transition cursor-pointer" title={theme === 'light' ? 'Dark mode' : 'Light mode'}>
+            {theme === 'light' ? <Moon size={15} /> : <Sun size={15} />}
+          </button>
+        )}
         <button
           onClick={() => setCollapsed(!collapsed)}
           className={cn(
-            'w-full flex items-center gap-2.5 rounded-lg text-[13px] text-ink-400 hover:text-ink-200 hover:bg-ink-800/50 transition cursor-pointer',
+            'w-full flex items-center gap-2.5 rounded-lg text-[13px] text-ink-400 hover:text-ink-200 hover:bg-ink-800/40 transition cursor-pointer',
             collapsed ? 'justify-center px-2 py-2.5' : 'px-3 py-2'
           )}
         >
@@ -201,24 +216,24 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Mobile hamburger */}
-      <button onClick={() => setMobileOpen(true)} className="fixed top-4 left-4 z-50 lg:hidden p-2 rounded-lg bg-ink-900 border border-ink-700 text-ink-300 hover:text-ink-100 transition cursor-pointer">
-        <Menu size={20} />
+      <button onClick={() => setMobileOpen(true)} className="fixed top-4 left-4 z-50 lg:hidden p-1.5 rounded-lg bg-ink-900/80 border border-ink-700 text-ink-300 hover:text-ink-100 transition cursor-pointer backdrop-blur-sm">
+        <Menu size={18} />
       </button>
 
-      {/* Mobile overlay */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-50 bg-black/40 lg:hidden" onClick={() => setMobileOpen(false)}>
-          <aside className="w-60 h-full sidebar-bg border-r border-ink-700 flex flex-col" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm lg:hidden" onClick={() => setMobileOpen(false)}>
+          <aside
+            className="w-60 h-full sidebar-bg border-r border-ink-700 flex flex-col animate-slide-left"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="absolute top-4 right-4">
-              <button onClick={() => setMobileOpen(false)} className="text-ink-400 hover:text-ink-200 cursor-pointer"><X size={20} /></button>
+              <button onClick={() => setMobileOpen(false)} className="text-ink-400 hover:text-ink-200 cursor-pointer p-1 rounded-lg hover:bg-ink-800/40"><X size={18} /></button>
             </div>
             {content}
           </aside>
         </div>
       )}
 
-      {/* Desktop sidebar */}
       <aside className={cn('hidden lg:flex fixed left-0 top-0 bottom-0 sidebar-bg border-r border-ink-700 flex-col z-40 transition-all duration-200', width)}>
         {content}
       </aside>
